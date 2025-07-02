@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="kr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../css/login.css" crossorigin="anonymous" />
+    <title>아이디 찾기 - endupcode Edu Community</title>
+  </head>
+  <body>
+    <section class="wrap">
+      <h1 class="title">아이디 찾기</h1>
+
+      <article>
+        <div class="inputBox">
+        <label for="nickname">가입한 닉네임</label>
+        <input
+            type="text"                
+            name="nickname"          
+            id="nickname"          
+            placeholder="가입한 닉네임을 입력하세요"
+            required
+        />
+        <p class="helperText" name="nickname"></p>
+        </div>
+
+        <div class="buttons">
+          <button id="findIdBtn">아이디 찾기</button>
+        </div>
+
+        <div class="resultBox" id="resultBox" style="display: none; margin-top: 16px;">
+          <p>당신의 아이디는: <strong id="foundId"></strong> 입니다.</p>
+        </div>
+      </article>
+    </section>
+    <div class="background"></div>
+  </body>
+  <script src="../js/findId.js" type="module"></script>
+</html>

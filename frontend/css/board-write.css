@@ -1,0 +1,126 @@
+@import url('./common/layout.css');
+@import url('../component/header/header.css');
+
+.wrap {
+    width: 100%;
+    padding-left: 16px;
+    padding-right: 16px;
+
+    justify-content: flex-start;
+    row-gap: 30px;
+}
+
+h2 {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 100px;
+    letter-spacing: -0.02em;
+    text-align: center;
+    color: rgb(238, 238, 238);
+}
+
+.inputBox {
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
+    width: 100%;
+}
+
+.inputBox label {
+    font-size: 14px;
+    line-height: 17px;
+    letter-spacing: -0.02em;
+    font-weight: 400;
+    color: rgb(238, 238, 238);
+
+    padding: 16px 16px;
+
+    border-bottom: 2px dotted #ffffff;
+}
+.inputBox input {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-bottom: 1px dotted #ffffff;
+    background-color: transparent;
+}
+
+.inputBox textarea {
+    width: 100%;
+    padding: 16px;
+    height: 200px;
+    resize: none;
+    outline: none;
+
+    border: none;
+    border-bottom: 1px dotted #ffffff;
+    background-color: transparent;
+}
+
+.wrap button {
+    width: 80%;
+    height: 33px;
+    margin-top: 20px;
+    border-radius: 4px;
+    cursor: pointer;
+
+    background-image: 
+    linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+    url('../image/danchung.jpg');
+
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 16.8px;
+    letter-spacing: -0.02em;
+    text-align: center;
+    color: rgba(255, 255, 255, 1);
+
+    border: none;
+    transition: transform 0.25s ease-in-out, opacity 0.3s ease-in-out;
+    will-change: transform;
+}
+
+.wrap button:hover {
+  transform: scale(0.95);
+}
+
+
+.non-border {
+    border: none !important;
+    padding: 0 16px !important;
+}
+
+.deleteFile {
+    cursor: pointer;
+    padding-left: 10px;
+    color: rgb(163, 0, 0);
+}
+
+.helperText {
+    color: rgb(216, 0, 0);
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.wrap {
+  background-color: rgba(255, 255, 255, 0.3); 
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 100px 0 24px 0;
+  margin: 20px auto;
+  width: 100%;
+  max-width: 600px;
+  overflow: visible;
+  box-shadow: 0 4px 100px rgba(255, 251, 0, 0.356);
+}
+
+.inputBox input::placeholder,
+.inputBox textarea::placeholder{
+
+  color: white;
+  font-size: 13px;
+  font-weight: 400;
+}
