@@ -425,36 +425,5 @@ const generateTempPassword = () => {
 };
 
 
-exports.findPassword = async (req, res) => {
-  const { email, nickname } = req.body;
-  console.log('입력값 확인:', email, nickname);
-
-  try {
-    const sql = 'SELECT * FROM user_table WHERE email = ? AND nickname = ? LIMIT 1';
-    const [rows] = await dbConnect.query(sql, [email, nickname]);
-
-    console.log('🔍 쿼리 결과:', rows);
-
-    if (!rows || !rows.length) {
-      return res.status(404).json({ message: '일치하는 회원 정보가 없습니다.' });
-    }
-
-    const tempPassword = generateRandomPassword();
-    const hashedTemp = await bcrypt.hash(tempPassword, 10);
-
-    const updateSql = 'UPDATE user_table SET password = ? WHERE email = ?';
-    await dbConnect.query(updateSql, [hashedTemp, email]);
-
-    return res.status(200).json({
-      message: '임시 비밀번호가 발급되었습니다.',
-      tempPassword: tempPassword,
-    });
-  } catch (error) {
-    console.error('findPassword error:', error);
-    return res.status(500).json({ message: '서버 오류가 발생했습니다.' });
-  }
-};
-
-
 
 

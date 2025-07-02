@@ -13,7 +13,6 @@ router.post('/signup', userController.signupUser);
 router.post('/login', userController.loginUser);
 router.post('/logout', isLoggedIn, userController.logoutUser);
 router.post('/find-id', userController.findUserId);
-router.post('/find-password', userController.findPassword);
 
 router.put('/:user_id', isLoggedIn, userController.updateUser);
 router.patch('/:user_id/password', isLoggedIn, userController.changePassword);
