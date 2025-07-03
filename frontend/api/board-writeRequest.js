@@ -28,13 +28,18 @@ export const updatePost = (postId, boardData) => {
 };
 
 export const fileUpload = formData => {
-    const result = fetch(getServerUrl() + '/posts/upload/attach-file', {
+    const result = fetch(getServerUrl() + '/files/posts/upload/attach-file', {
         method: 'POST',
         body: formData,
+        headers: {
+            session: getCookie('session'),
+            userId: getCookie('userId'),
+        }
     });
 
     return result;
 };
+
 
 export const getBoardItem = postId => {
     const result = fetch(getServerUrl() + `/posts/${postId}`, {

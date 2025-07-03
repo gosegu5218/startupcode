@@ -206,14 +206,14 @@ const setModifyData = data => {
         localStorage.setItem('postFilePath', data.filePath);
 
         // 이제 추출된 파일명을 사용하여 File 객체를 생성
-        const attachFile = new File(
-            // 실제 이미지 데이터 대신 URL을 사용
-            [`${getServerUrl()}${data.filePath}`],
-            // 추출된 파일명
-            fileName,
-            // MIME 타입 지정, 실제 이미지 타입에 맞게 조정 필요
-            { type: '' },
-        );
+        fetch(`${getServerUrl()}${data.filePath}`)
+        .then(res => res.blob())
+        .then(blob => {
+            const file = new File([blob], fileName, { type: blob.type });
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(file);
+            imageInput.files = dataTransfer.files;
+        });
 
         const dataTransfer = new DataTransfer();
         dataTransfer.items.add(attachFile);
