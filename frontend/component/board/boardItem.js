@@ -42,7 +42,6 @@ const BoardItem = (
         <div class="boardItem">
             <h2 class="title">${postTitle}</h2>
             <div class="info">
-                <h3 class="views">좋아요 <b>${like}</b></h3>
                 <h3 class="views">댓글 <b>${commentCount}</b></h3>
                 <h3 class="views">조회수 <b>${hits}</b></h3>
                 <p class="date">${formattedDate}</p>

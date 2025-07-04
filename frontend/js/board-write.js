@@ -205,7 +205,7 @@ const setModifyData = data => {
         imagePreviewText.style.display = 'block';
         localStorage.setItem('postFilePath', data.filePath);
 
-        // 이제 추출된 파일명을 사용하여 File 객체를 생성
+        // 파일을 fetch해서 File 객체로 만듦
         fetch(`${getServerUrl()}${data.filePath}`)
         .then(res => res.blob())
         .then(blob => {
@@ -214,12 +214,7 @@ const setModifyData = data => {
             dataTransfer.items.add(file);
             imageInput.files = dataTransfer.files;
         });
-
-        const dataTransfer = new DataTransfer();
-        dataTransfer.items.add(attachFile);
-        imageInput.files = dataTransfer.files;
     } else {
-        // 이미지 파일이 없으면 미리보기 숨김
         imagePreviewText.style.display = 'none';
     }
 
@@ -228,6 +223,7 @@ const setModifyData = data => {
 
     observeSignupData();
 };
+
 
 const init = async () => {
     const dataResponse = await authCheck();
