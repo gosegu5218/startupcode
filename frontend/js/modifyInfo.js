@@ -121,7 +121,7 @@ const changeEventHandler = async (event, uid) => {
 
             // 파일 업로드를 위한 POST 요청 실행
             try {
-                const response = await fetch(`${getServerUrl()}/users/upload/profile-image`, {
+                const response = await fetch(`${getServerUrl()}/files/users/upload/profile-image`, {
                     method: 'POST',
                     body: formData,
                 });
