@@ -5,23 +5,39 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link
             rel="stylesheet"
-            href="../css/index.css"
+            href="../css/index.css?v=2"
             crossorigin="anonymous"
         />
         <title>STARTUPCODE Edu Community</title>
     </head>
     <body>
-        <section class="wrap">
+        <section class="hero">
+            <div class="hero-inner">
+                <div class="hero-left">
+                    <div class="site-logo">Community<span class="logo-dot"></span></div>
+                </div>
+                <div class="hero-right">
+                </div>
+            </div>
+        </section>
+
+        <section class="wrap listing-wrap">
             <div class="write">
                 <h2>
                     안녕하세요, <br />
-                    커뮤니티 <b>게시판</b> 입니다.
+                    <b>AOTD</b> 커뮤니티에 오신 걸 환영합니다.
                 </h2>
-                <a href="./board-write.html" id="writeLink">게시글 작성</a>
+                <div class="write-controls">
+                    <div class="search-pill">
+                        <input type="search" placeholder="검색어를 입력하세요." />
+                        <button aria-label="검색">🔍</button>
+                    </div>
+                    <a href="./board-write.html" id="writeLink">게시글 작성</a>
+                </div>
             </div>
             <section class="boardList"></section>
         </section>
         <div class="background"></div>
     </body>
-    <script src="../js/index.js" type="module"></script>
+    <script src="../js/index.js?v=2" type="module"></script>
 </html>

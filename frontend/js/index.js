@@ -1,6 +1,5 @@
 import BoardItem from '../component/board/boardItem.js';
-import Header from '../component/header/header.js';
-import { authCheck, getServerUrl, prependChild } from '../utils/function.js';
+import { authCheck, getServerUrl } from '../utils/function.js';
 import { getPosts } from '../api/indexRequest.js';
 
 
@@ -8,13 +7,13 @@ const DEFAULT_PROFILE_IMAGE = '../public/image/profile/default.jpg';
 const HTTP_NOT_AUTHORIZED = 401;
 const SCROLL_THRESHOLD = 0.9;
 const INITIAL_OFFSET = 0;
-const ITEMS_PER_LOAD = 5;
+const ITEMS_PER_LOAD = 3; // load 3 posts per scroll as requested
 
 // ✅ 렌더링된 게시글 ID 추적용
 const renderedPostIds = new Set();
 
 // 게시글 데이터 가져오기
-const getBoardItem = async (offset = 0, limit = 5) => {
+const getBoardItem = async (offset = 0, limit = ITEMS_PER_LOAD) => {
     const response = await getPosts(offset, limit);
     if (!response.ok) {
         throw new Error('Failed to load post list.');
@@ -28,16 +27,17 @@ const setBoardItem = boardData => {
     const boardList = document.querySelector('.boardList');
     if (!boardList || !boardData) return;
 
-    boardData.forEach(data => {
+    boardData.forEach((data, idx) => {
         // ✅ 이미 렌더링된 게시글은 건너뜀
         if (renderedPostIds.has(data.post_id)) return;
 
+        const imagePath = data.filePath ? data.filePath : data.profileImagePath;
         const itemHtml = BoardItem(
             data.post_id,
             data.created_at,
             data.post_title,
             data.hits,
-            data.profileImagePath === null ? null : data.profileImagePath,
+            imagePath === null ? null : imagePath,
             data.nickname,
             data.comment_count,
             data.like,
@@ -45,7 +45,19 @@ const setBoardItem = boardData => {
         if (typeof itemHtml === 'string') {
             const wrapper = document.createElement('div');
             wrapper.innerHTML = itemHtml;
-            boardList.appendChild(wrapper.firstElementChild);
+            const element = wrapper.firstElementChild; // this is the <a> wrapper
+
+            // add animation/entrance classes
+            element.classList.add('board-card');
+            // stagger animation per item in the batch
+            element.style.transitionDelay = `${(idx % ITEMS_PER_LOAD) * 90}ms`;
+
+            boardList.appendChild(element);
+
+            // trigger the enter animation on next frame
+            requestAnimationFrame(() => {
+                element.classList.add('in');
+            });
         }
 
         renderedPostIds.add(data.post_id); // ✅ 렌더링 기록
@@ -100,7 +112,7 @@ const init = async () => {
                 ? DEFAULT_PROFILE_IMAGE
                 : `${getServerUrl()}${data.data.profileImagePath}`;
 
-        prependChild(document.body, Header('Community', 0, profileImagePath));
+        // header intentionally omitted on the community listing per request
 
         const boardList = await getBoardItem(INITIAL_OFFSET, ITEMS_PER_LOAD);
         setBoardItem(boardList);

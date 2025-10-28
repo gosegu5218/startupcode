@@ -40,6 +40,9 @@ const BoardItem = (
     return `
     <a href="/html/board.html?id=${postId}">
         <div class="boardItem">
+            <div class="cover">
+                <img src="${profileImagePath}" alt="cover image" />
+            </div>
             <h2 class="title">${postTitle}</h2>
             <div class="info">
                 <h3 class="views">댓글 <b>${commentCount}</b></h3>
@@ -47,11 +50,11 @@ const BoardItem = (
                 <p class="date">${formattedDate}</p>
             </div>
             <div class="writerInfo">
-            <picture class="img">
-                <img src="${`${profileImagePath}`}" alt="img">
-            </picture>
-            <h2 class="writer">${writer}</h2>
-        </div>
+                <picture class="img">
+                    <img src="${profileImagePath}" alt="img">
+                </picture>
+                <h2 class="writer">${writer}</h2>
+            </div>
         </div>
     </a>
 `;

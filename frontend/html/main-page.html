@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>메인 페이지</title>
+    <link rel="stylesheet" href="../css/main-page.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <!-- 중앙 네비바 제외 요청에 따라 간단한 상단 바만 남깁니다 -->
+      <div class="logo">AOTD</div>
+      <div class="nav-actions">
+        <!-- 'Menu' 텍스트 제거, 햄버거만 남김 -->
+        <button class="hamburger" aria-label="메뉴 열기" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </header>
+
+    <main class="hero">
+      <div class="hero-inner">
+        <div class="hero-content">
+          <p class="hero-sub">가장 자연스럽고 기억하기 좋은 건</p>
+          <h1 class="hero-title">AOTD</h1>
+          <a class="more-view" href="/html/index.html">more view &rarr;</a>
+        </div>
+        <!-- 오른쪽 DA 텍스트는 요청에 따라 제거 -->
+      </div>
+    </main>
+
+    <!-- Sidebar overlay (hidden by default) -->
+    <div class="sidebar-overlay" role="dialog" aria-hidden="true">
+      <aside class="sidebar" aria-label="사이트 메뉴">
+        <nav class="sidebar-nav">
+          <ul class="sidebar-list">
+            <li><a href="#">Feed</a></li>
+            <li><a href="#">Style</a></li>
+            <li><a href="#">People</a></li>
+            <li><a href="/html/index.html">Community</a></li>
+            <li><a href="#">Logout</a></li>
+          </ul>
+        </nav>
+
+        <div class="sidebar-footer">
+          <div class="footer-col">
+            <p class="muted">Work at AOTD</p>
+            <a href="mailto:hr_wayble@way-ble.com">ga3un5218@gmail.com</a>
+          </div>
+          <div class="footer-col address">
+            <p class="muted">Where We Are</p>
+            <address>
+              전북특별자치도 익산시 익산대로 460 원광대학교<br />
+              460 Iksan-daero, Iksan-si, Jeollabuk-do, 54538, Republic of Korea
+            </address>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <footer class="site-footer">
+      <!-- 필요 시 추가 -->
+    </footer>
+    <script src="../js/main-page.js"></script>
+  </body>
+</html>

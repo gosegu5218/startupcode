@@ -47,7 +47,8 @@ const loginClick = async () => {
 
     setCookie('session', result.data.sessionId, 14);
     setCookie('userId', result.data.userId, 14);
-    location.href = '/html/index.html';
+    // 로그인 후 메인 페이지로 이동 (요청에 따라 main-page.html로 변경)
+    location.href = '/html/main-page.html';
 };
 
 const observeSignupData = () => {

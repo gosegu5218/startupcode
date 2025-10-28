@@ -1,0 +1,125 @@
+/* Simple hero layout for main page
+   - no background media
+   - no center navbar
+   - no right-side large text
+   - no pagination numbers under MORE VIEW
+*/
+
+:root{
+  --bg: #0b0b0b;
+  --muted: #cfcfcf;
+  --accent: #fff;
+}
+
+html,body{height:100%;margin:0}
+body{font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", "Helvetica Neue", Arial; background:var(--bg); color:var(--accent)}
+
+.site-header{display:flex;justify-content:space-between;align-items:center;padding:18px 40px}
+.site-header .logo{font-weight:700; font-size:26px}
+
+.nav-actions{display:flex;align-items:center;gap:12px}
+.site-header .top-links a{color:var(--accent);text-decoration:none}
+
+/* Hamburger button styles */
+.hamburger{display:inline-flex;flex-direction:column;justify-content:space-between;width:42px;height:30px;padding:6px;border:0;background:transparent;cursor:pointer}
+.hamburger span{display:block;height:3px;background:var(--accent);border-radius:3px;transition:all .18s ease}
+.hamburger:focus,.hamburger:active{outline:none;box-shadow:none}
+.hamburger::-moz-focus-inner{border:0}
+
+/* 기본 토글 애니메이션 (선택 사항) */
+.hamburger[aria-expanded="true"] span:nth-child(1){transform:translateY(8px) rotate(45deg)}
+.hamburger[aria-expanded="true"] span:nth-child(2){opacity:0}
+.hamburger[aria-expanded="true"] span:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
+
+/* Sidebar overlay styles */
+.sidebar-overlay{
+  position:fixed;
+  inset:0;
+  display:flex;
+  justify-content:flex-start;
+  align-items:stretch;
+  background:rgba(0,0,0,0.0);
+  visibility:hidden;
+  opacity:0;
+  transition:opacity 240ms ease, visibility 240ms;
+  z-index:1200;
+}
+.sidebar-overlay.open{visibility:visible;opacity:1;background:rgba(0,0,0,1);z-index:9999}
+
+.sidebar{
+  /* Make sidebar full-width so no page content shows on the right */
+  width:100%;
+  max-width:none;
+  padding:70px 60px 120px 80px;
+  box-sizing:border-box;
+  color:var(--accent);
+  position:relative;
+  overflow:auto;
+}
+
+/* close button removed (X) - overlay click / ESC still close the sidebar */
+
+.sidebar-list{list-style:none;margin:0;padding:0}
+.sidebar-list li{margin:32px 0}
+.sidebar-list a{color:var(--accent);text-decoration:none;display:block;font-size:clamp(36px,7.5vw,96px);line-height:1.06;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+
+.sidebar-footer{position:absolute;right:60px;bottom:40px;display:flex;gap:28px;align-items:flex-end;justify-content:flex-end}
+.sidebar-footer .muted{color:rgba(255,255,255,0.5);margin:0 0 8px 0;font-size:12px;text-align:right}
+.sidebar-footer a{color:var(--accent);text-decoration:none;font-size:12px;text-align:right}
+.sidebar-footer address{font-style:normal;color:rgba(255,255,255,0.9);font-size:12px;text-align:right}
+
+@media (max-width:900px){
+  .sidebar{width:100%;padding:40px}
+  .sidebar-footer{right:20px;bottom:20px;flex-direction:column;gap:14px}
+  .sidebar-list a{font-size:clamp(36px,12vw,80px)}
+}
+
+@media (max-width:600px){
+  .sidebar-footer .muted,.sidebar-footer a,.sidebar-footer address{font-size:11px}
+}
+
+/* scrollbar styling to avoid bright default track color */
+.sidebar::-webkit-scrollbar, .sidebar-overlay::-webkit-scrollbar{
+  width:12px;
+}
+.sidebar::-webkit-scrollbar-track, .sidebar-overlay::-webkit-scrollbar-track{
+  background: rgba(255,255,255,0.02);
+}
+.sidebar::-webkit-scrollbar-thumb, .sidebar-overlay::-webkit-scrollbar-thumb{
+  background: rgba(255,255,255,0.08);
+  border-radius:6px;
+}
+
+
+.hero{display:flex;align-items:center;justify-content:center;min-height:calc(100vh - 80px);box-sizing:border-box;padding:40px}
+.hero-inner{width:100%;max-width:1200px;display:flex;align-items:flex-start;gap:24px}
+
+.hero-content{max-width:60%;}
+
+/* Desktop: move hero content more to the left (closer to logo) */
+@media (min-width:901px){
+  .hero{justify-content:flex-start;padding-left:80px}
+  .hero-content{max-width:50%}
+}
+.hero-sub{margin:0 0 18px 0;color:var(--muted);font-size:18px}
+.hero-title{margin:0;font-size:clamp(48px,12vw,140px);line-height:0.9;letter-spacing:-0.02em}
+.more-view{display:inline-block;margin-top:28px;color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:4px}
+
+/* Responsive tweaks */
+@media (max-width:900px){
+  .hero-inner{flex-direction:column;align-items:center;text-align:center}
+  .hero-content{max-width:100%}
+  .hero-sub{font-size:14px}
+  .hero-title{font-size:clamp(32px,16vw,80px)}
+}
+
+@media (max-width:600px){
+  .site-header{padding:12px 20px}
+  .hamburger{width:36px;height:26px}
+  .hamburger span{height:2.5px}
+  /* close button matches mobile hamburger size but slightly larger */
+  .sidebar-close{right:20px;top:12px;width:50px;height:36px;padding:6px;font-size:18px}
+}
+
+/* ensure nothing resembling pagination is shown below */
+.pagination, .hero-dots, .hero-counts{display:none !important}

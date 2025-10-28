@@ -2,13 +2,29 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-
-    padding: 16px 0;
-    border: 1px solid rgba(241, 241, 243, 1);
-    border-radius: 8px;
-
+    padding: 30px 30px; /* reduced vertical padding */
     cursor: pointer;
-    box-shadow: 3px 4px 4px 0px #cccccc40;
+    box-shadow: none !important; /* remove any card shadow */
+}
+
+/* cover image styling (large preview) */
+.boardItem .cover {
+    width: 100%;
+    height: 140px; /* smaller cover */
+    border-radius: 50px;
+    overflow: hidden;
+    margin-bottom: 12px;
+}
+
+.boardItem .cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 420ms cubic-bezier(.2,.9,.2,1);
+}
+.boardItem .cover:hover img,
+.boardItem:hover .cover img {
+    transform: scale(1.06);
 }
 
 .boardItem .date {
@@ -17,21 +33,18 @@
     font-size: 12px;
     line-height: 17px;
     margin-left: 60px;
-    color: rgba(171, 174, 186, 1);
     letter-spacing: -0.02em;
     padding: 0 20px;
 }
 
 .boardItem .title {
-    font-size: 24px;
-    font-weight: bold;
-    line-height: 32px;
-
-    color: #000000;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 28px;
     letter-spacing: -0.02em;
-
-    margin-bottom: 24px;
-    padding: 0 20px;
+    margin-bottom: 12px;
+    padding: 0 16px;
+    color: inherit;
 }
 
 .boardItem .info {
@@ -39,11 +52,9 @@
     flex-direction: row;
     justify-content: flex-start;
     column-gap: 16px;
-    padding-bottom: 16px;
-    padding-left: 20px;
-    border-bottom: 1px solid gray;
+    padding-bottom: 12px;
+    padding-left: 40px;
 }
-
 .boardItem .info h3,
 .boardItem .info b {
     font-size: 15px;
@@ -53,19 +64,18 @@
 
     color: black;
 }
-
 .boardItem .writerInfo {
-    margin-top: 16px;
+    margin-top: 12px;
     display: flex;
     flex-direction: row;
     align-items: center;
     column-gap: 16px;
-    padding: 0 20px;
+    padding: 0 16px;
 }
 
 .boardItem .img {
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
 
     border-radius: 50%;
     overflow: hidden;
@@ -79,9 +89,9 @@
 }
 
 .boardItem .writer {
-    font-size: 14px;
-    line-height: 22px;
+    font-size: 13px;
+    line-height: 20px;
     letter-spacing: -0.02em;
-
-    color: rgba(92, 97, 112, 1);
+    order: 1px solid rgba(255,255,255,0.08);
+    color: rgb(255, 255, 255);
 }
