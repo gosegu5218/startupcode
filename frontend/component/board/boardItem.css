@@ -2,18 +2,17 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    padding: 30px 30px; /* reduced vertical padding */
+    padding: 7px 10px; /* reduced vertical padding */
     cursor: pointer;
-    box-shadow: none !important; /* remove any card shadow */
 }
 
 /* cover image styling (large preview) */
 .boardItem .cover {
     width: 100%;
     height: 140px; /* smaller cover */
-    border-radius: 50px;
+    border-radius: 100px;
     overflow: hidden;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
 }
 
 .boardItem .cover img {
@@ -28,13 +27,12 @@
 }
 
 .boardItem .date {
-    align-self: flex-end;
-
     font-size: 12px;
     line-height: 17px;
-    margin-left: 60px;
     letter-spacing: -0.02em;
-    padding: 0 20px;
+    margin: 0 16 px;
+    padding: 0;
+    color: rgba(255,255,255,0.75);
 }
 
 .boardItem .title {
@@ -42,18 +40,34 @@
     font-weight: 700;
     line-height: 28px;
     letter-spacing: -0.02em;
+    margin-bottom: 0;
+    padding: 0px;
+    color: #ffffff;
+    flex: 1;
+}
+
+/* title and writer row - same line */
+.boardItem .titleRow {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    column-gap: 12px;
     margin-bottom: 12px;
-    padding: 0 16px;
-    color: inherit;
+    width: 100%;
 }
 
 .boardItem .info {
+    /* bottom-side meta (comments, views, date) - left aligned */
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     column-gap: 16px;
-    padding-bottom: 12px;
-    padding-left: 40px;
+    padding-top: 8px;
+    padding-bottom: 0;
+    padding-left: 0;
+    vertical-align: middle;
+    width: 100%;
 }
 .boardItem .info h3,
 .boardItem .info b {
@@ -61,16 +75,17 @@
     font-weight: 200;
     line-height: 17px;
     letter-spacing: -0.02em;
-
-    color: black;
+    color: rgba(255,255,255,0.9);
 }
 .boardItem .writerInfo {
-    margin-top: 12px;
+    /* inline with title, aligned right */
     display: flex;
     flex-direction: row;
     align-items: center;
-    column-gap: 16px;
-    padding: 0 16px;
+    column-gap: 8px;
+    padding: 0;
+    margin: 0;
+    white-space: nowrap;
 }
 
 .boardItem .img {
@@ -92,6 +107,13 @@
     font-size: 13px;
     line-height: 20px;
     letter-spacing: -0.02em;
-    order: 1px solid rgba(255,255,255,0.08);
+    order: 1px solid rgba(105, 105, 105, 0.08);
     color: rgb(255, 255, 255);
+}
+
+/* clearfix so floating meta rows don't collapse the container */
+.boardItem::after {
+    content: "";
+    display: block;
+    clear: both;
 }

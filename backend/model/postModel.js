@@ -94,14 +94,17 @@ exports.getPosts = async (requestData, response) => {
             WHEN post_table.hits >= 1000 THEN CONCAT(ROUND(post_table.hits / 1000, 1), 'K')
             ELSE post_table.hits
         END as hits,
-        COALESCE(file_table.file_path, NULL) AS profileImagePath
+        COALESCE(post_file.file_path, NULL) AS filePath,
+        COALESCE(profile_file.file_path, NULL) AS profileImagePath
     FROM post_table
-            LEFT JOIN user_table ON post_table.user_id = user_table.user_id
-            LEFT JOIN file_table ON user_table.file_id = file_table.file_id
+        LEFT JOIN file_table post_file ON post_table.file_id = post_file.file_id
+        LEFT JOIN user_table ON post_table.user_id = user_table.user_id
+        LEFT JOIN file_table profile_file ON user_table.file_id = profile_file.file_id
     WHERE post_table.deleted_at IS NULL
-    ORDER BY post_table.created_at DESC;
+    ORDER BY post_table.created_at DESC
+    LIMIT ? OFFSET ?;
     `;
-    const results = await dbConnect.query(sql, response);
+    const results = await dbConnect.query(sql, [requestData.limit, requestData.offset], response);
 
     if (!results) return null;
     return results;

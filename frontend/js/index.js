@@ -31,13 +31,13 @@ const setBoardItem = boardData => {
         // ✅ 이미 렌더링된 게시글은 건너뜀
         if (renderedPostIds.has(data.post_id)) return;
 
-        const imagePath = data.filePath ? data.filePath : data.profileImagePath;
         const itemHtml = BoardItem(
             data.post_id,
             data.created_at,
             data.post_title,
             data.hits,
-            imagePath === null ? null : imagePath,
+            data.filePath,
+            data.profileImagePath,
             data.nickname,
             data.comment_count,
             data.like,

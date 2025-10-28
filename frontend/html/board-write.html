@@ -3,24 +3,49 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>게시글 작성</title>
         <link
             rel="stylesheet"
-            href="../css/board-write.css"
+            href="../css/board-write.css?v=5"
             crossorigin="anonymous"
         />
+        <title>게시글 작성</title>
     </head>
     <body>
-        <div class="wrap">
-            <h2>게시글 작성</h2>
+        <header class="site-header">
+            <div class="logo">AOTD</div>
+            <div class="nav-actions">
+                <button class="hamburger" aria-label="메뉴 열기" aria-expanded="false">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </header>
+
+        <section class="hero">
+            <div class="hero-inner">
+                <div class="hero-left">
+                    <div class="site-logo">Write<span class="logo-dot"></span></div>
+                </div>
+                <div class="hero-right">
+                </div>
+            </div>
+        </section>
+
+        <section class="wrap write-wrap">
+            <div class="write-header">
+                <h2>새로운 게시글을 작성해보세요.</h2>
+            </div>
+
             <div class="inputBox">
                 <label>제목*</label>
                 <input
                     type="text"
                     id="title"
-                    placeholder="제목을 입력해 주세요. (최대 26자)"
+                    placeholder="제목을 입력해 주세요."
                 />
             </div>
+
             <div class="inputBox">
                 <label>내용*</label>
                 <textarea
@@ -29,19 +54,54 @@
                 ></textarea>
                 <p class="helperText" name="content"></p>
             </div>
+
             <div class="inputBox">
-                <label class="non-border">이미지</label>
+                <label>이미지</label>
                 <input
-                    class="non-border"
                     type="file"
                     id="image"
                     placeholder="파일을 선택해주세요."
                     accept="image/*"
                 />
             </div>
-            <button id="submit">완료</button>
-        </div>
+
+            <button id="submit">게시글 작성</button>
+        </section>
+
         <div class="background"></div>
+
+        <!-- Sidebar overlay (hidden by default) -->
+        <div class="sidebar-overlay" role="dialog" aria-hidden="true">
+            <aside class="sidebar" aria-label="사이트 메뉴">
+                <nav class="sidebar-nav">
+                    <ul class="sidebar-list">
+                        <li><a href="#">Feed</a></li>
+                        <li><a href="#">Style</a></li>
+                        <li><a href="#">People</a></li>
+                        <li><a href="/html/index.html">Community</a></li>
+                    </ul>
+                </nav>
+
+                <div class="sidebar-footer">
+                    <div class="footer-col">
+                        <p class="muted">Work at AOTD</p>
+                        <a href="mailto:ga3un5218@gmail.com">ga3un5218@gmail.com</a>
+                    </div>
+                    <div class="footer-col address">
+                        <p class="muted">Where We Are</p>
+                        <address>
+                            전북특별자치도 익산시 익산대로 460 원광대학교<br />
+                            460 Iksan-daero, Iksan-si, Jeollabuk-do, 54538, Republic of Korea
+                        </address>
+                    </div>
+                </div>
+            </aside>
+        </div>
+
+        <footer class="site-footer">
+            <!-- 필요 시 추가 -->
+        </footer>
     </body>
-    <script src="../js/board-write.js" type="module"></script>
+    <script src="../js/board-write.js?v=5" type="module"></script>
+    <script src="../js/sidebar.js"></script>
 </html>

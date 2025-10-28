@@ -5,54 +5,128 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link
             rel="stylesheet"
-            href="../css/board.css"
+            href="../css/board.css?v=1"
             crossorigin="anonymous"
         />
-        <title>게시판 상세</title>
+        <title>게시글 상세</title>
     </head>
     <body>
-        <section class="wrap">
-            <section class="head">
-                <h1 class="title"></h1>
-                <div class="writerWrap">
-                    <picture class="profileImg">
-                        <img class="img" src="/public/profile_default.svg" />
-                    </picture>
-                    <h2 class="nickname"></h2>
-                    <h3 class="createdAt"></h3>
-                    <div class="mod hidden">
-                        <button id="modifyBtn">수정</button>
-                        <button id="deleteBtn">삭제</button>
-                    </div>
+        <header class="site-header">
+            <div class="logo">AOTD</div>
+            <div class="nav-actions">
+                <button class="hamburger" aria-label="메뉴 열기" aria-expanded="false">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </header>
+
+        <section class="hero">
+            <div class="hero-inner">
+                <div class="hero-left">
+                    <div class="site-logo">Community<span class="logo-dot"></span></div>
                 </div>
-            </section>
-            <section class="body">
-                <div class="contentImg"></div>
-                <article class="content"></article>
-                <article class="bodyWrap">
-                    <div class="commentWrap">
-                        <div class="viewCount">
-                            <h3></h3>
-                            <p>조회수</p>
-                        </div>
-                        <div class="commentCount">
-                            <h3></h3>
-                            <p>댓글</p>
-                        </div>
-                    </div>
-                </article>
-            </section>
-            <section class="comment">
-                <div class="commentInputWrap">
-                    <textarea placeholder="댓글을 남겨주세요!"></textarea>
-                    <div>
-                        <button class="commentInputBtn">댓글 등록</button>
-                    </div>
+                <div class="hero-right">
                 </div>
-                <div class="commentList"></div>
-            </section>
+            </div>
         </section>
+
+        <section class="board-wrap">
+            <!-- 게시글 헤더 -->
+            <div class="post-header">
+                <div class="header-top">
+                    <h1 class="post-title" id="postTitle">게시글 제목</h1>
+                    <div class="post-actions">
+                        <button class="edit-btn" id="editBtn">수정</button>
+                        <button class="delete-btn" id="deleteBtn">삭제</button>
+                    </div>
+                </div>
+                <div class="post-meta">
+                    <img class="author-avatar" id="authorAvatar" src="" alt="작성자 프로필" />
+                    <div class="author-details">
+                        <p class="author-name" id="authorName">작성자 이름</p>
+                        <p class="post-date" id="postDate">2024년 10월 29일</p>
+                    </div>
+                </div>
+                <hr class="divider" />
+            </div>
+
+            <!-- 게시글 내용 -->
+            <div class="post-content">
+                <div class="content-image" id="contentImage">
+                    <!-- 이미지가 있을 경우 여기에 표시 -->
+                </div>
+                <div class="content-text" id="contentText">
+                    게시글 내용이 여기에 표시됩니다.
+                </div>
+            </div>
+
+            <!-- 좋아요 섹션 -->
+            <div class="likes-section">
+                <button class="like-btn" id="likeBtn">
+                    <span class="like-icon">♥</span>
+                </button>
+                <p class="like-count" id="likeCount">0</p>
+            </div>
+
+            <!-- 댓글 섹션 -->
+            <div class="comments-section">
+                <h2 class="comments-title">댓글</h2>
+                
+                <!-- 댓글 입력 -->
+                <div class="comment-input-wrap">
+                    <textarea 
+                        id="commentInput" 
+                        class="comment-textarea" 
+                        placeholder="댓글을 입력해주세요."
+                    ></textarea>
+                    <div class="comment-button-wrap">
+                        <button id="submitCommentBtn" class="submit-comment-btn">댓글 작성</button>
+                    </div>
+                </div>
+
+                <!-- 댓글 목록 -->
+                <div class="comments-list" id="commentsList">
+                    <!-- 댓글이 여기에 표시됨 -->
+                </div>
+            </div>
+        </section>
+
         <div class="background"></div>
+
+        <!-- Sidebar overlay (hidden by default) -->
+        <div class="sidebar-overlay" role="dialog" aria-hidden="true">
+            <aside class="sidebar" aria-label="사이트 메뉴">
+                <nav class="sidebar-nav">
+                    <ul class="sidebar-list">
+                        <li><a href="#">Feed</a></li>
+                        <li><a href="#">Style</a></li>
+                        <li><a href="#">People</a></li>
+                        <li><a href="/html/index.html">Community</a></li>
+                    </ul>
+                </nav>
+
+                <div class="sidebar-footer">
+                    <div class="footer-col">
+                        <p class="muted">Work at AOTD</p>
+                        <a href="mailto:ga3un5218@gmail.com">ga3un5218@gmail.com</a>
+                    </div>
+                    <div class="footer-col address">
+                        <p class="muted">Where We Are</p>
+                        <address>
+                            전북특별자치도 익산시 익산대로 460 원광대학교<br />
+                            460 Iksan-daero, Iksan-si, Jeollabuk-do, 54538, Republic of Korea
+                        </address>
+                    </div>
+                </div>
+            </aside>
+        </div>
+
+        <footer class="site-footer">
+            <!-- 필요 시 추가 -->
+        </footer>
     </body>
-    <script src="../js/board.js" type="module"></script>
+    <script src="../js/board.js?v=1" type="module"></script>
+    <script src="../js/sidebar.js"></script>
 </html>
