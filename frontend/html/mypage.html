@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ko">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <title>마이페이지</title>
+        <link rel="stylesheet" href="../css/login.css" crossorigin="anonymous" />
+    </head>
+    <body>
+        <section class="wrap">
+            <h1 class="title">마이페이지</h1>
+            <article>
+                <div class="inputBox">
+                    <label for="nickname">닉네임</label>
+                    <input
+                        type="text"
+                        name="nickname"
+                        id="nickname"
+                        placeholder="닉네임을 입력하세요"
+                        disabled
+                    />
+                </div>
+                <div class="inputBox">
+                    <label for="email">이메일</label>
+                    <input
+                        type="text"
+                        name="email"
+                        id="email"
+                        placeholder="이메일"
+                        disabled
+                    />
+                </div>
+                <div class="buttons">
+                    <button id="modifyInfo">회원정보 수정</button>
+                    <button id="modifyPassword">비밀번호 변경</button>
+                </div>
+            </article>
+        </section>
+        <div class="background"></div>
+    </body>
+    <script type="module" src="../js/mypage-module.js"></script>
+    <script src="../js/mypage.js"></script>
+</html>

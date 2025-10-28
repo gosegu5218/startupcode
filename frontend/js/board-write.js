@@ -42,10 +42,10 @@ const observeSignupData = () => {
     const { title, content } = boardWrite;
     if (!title || !content || title === '' || content === '') {
         submitButton.disabled = true;
-        submitButton.style.backgroundColor = '#ACA0EB';
+        submitButton.style.opacity = '0.5';
     } else {
         submitButton.disabled = false;
-        submitButton.style.backgroundColor = '#7F6AEE';
+        submitButton.style.opacity = '1';
     }
 };
 
@@ -63,43 +63,48 @@ const getBoardData = () => {
 
 // 버튼 클릭시 이벤트
 const addBoard = async () => {
-    const boardData = getBoardData();
+    try {
+        const boardData = getBoardData();
 
-    // boardData가 false일 경우 함수 종료
-    if (!boardData) return Dialog('게시글', '게시글을 입력해주세요.');
+        // boardData가 false일 경우 함수 종료
+        if (!boardData) return Dialog('게시글', '게시글을 입력해주세요.');
 
-    if (boardData.postTitle.length > MAX_TITLE_LENGTH)
-        return Dialog('게시글', '제목은 26자 이하로 입력해주세요.');
+        if (boardData.postTitle.length > MAX_TITLE_LENGTH)
+            return Dialog('게시글', '제목은 26자 이하로 입력해주세요.');
 
-    if (!isModifyMode) {
-        const response = await createPost(boardData);
-        if (!response.ok) throw new Error('서버 응답 오류');
+        if (!isModifyMode) {
+            const response = await createPost(boardData);
+            if (!response.ok) throw new Error('서버 응답 오류');
 
-        const data = await response.json();
+            const data = await response.json();
 
-        if (response.status === HTTP_CREATED) {
-            localStorage.removeItem('postFilePath');
-            window.location.href = `/html/board.html?id=${data.data.insertId}`;
+            if (response.status === HTTP_CREATED) {
+                localStorage.removeItem('postFilePath');
+                window.location.href = `/html/board.html?id=${data.data.insertId}`;
+            } else {
+                const helperElement = contentHelpElement;
+                helperElement.textContent = '제목, 내용을 모두 작성해주세요.';
+            }
         } else {
-            const helperElement = contentHelpElement;
-            helperElement.textContent = '제목, 내용을 모두 작성해주세요.';
-        }
-    } else {
-        // 게시글 작성 api 호출
-        const post_id = getQueryString('post_id');
-        const setData = {
-            ...boardData,
-        };
+            // 게시글 수정 api 호출
+            const post_id = getQueryString('post_id');
+            const setData = {
+                ...boardData,
+            };
 
-        const response = await updatePost(post_id, setData);
-        if (!response.ok) throw new Error('서버 응답 오류');
+            const response = await updatePost(post_id, setData);
+            if (!response.ok) throw new Error('서버 응답 오류');
 
-        if (response.status === HTTP_OK) {
-            localStorage.removeItem('postFilePath');
-            window.location.href = `/html/board.html?id=${post_id}`;
-        } else {
-            Dialog('게시글', '게시글 수정 실패');
+            if (response.status === HTTP_OK) {
+                localStorage.removeItem('postFilePath');
+                window.location.href = `/html/board.html?id=${post_id}`;
+            } else {
+                Dialog('게시글', '게시글 수정 실패');
+            }
         }
+    } catch (error) {
+        console.error('게시글 작성/수정 중 오류:', error);
+        Dialog('오류', '게시글 작성/수정 중 오류가 발생했습니다.');
     }
 };
 const changeEventHandler = async (event, uid) => {
@@ -197,7 +202,11 @@ const setModifyData = data => {
     titleInput.value = data.post_title;
     contentInput.value = data.post_content;
 
-    if (data.filePath) {
+    // boardWrite 객체 업데이트
+    boardWrite.title = data.post_title;
+    boardWrite.content = data.post_content;
+
+    if (data.filePath && imagePreviewText) {
         // filePath에서 파일 이름만 추출하여 표시
         const fileName = data.filePath.split('/').pop();
         imagePreviewText.innerHTML =
@@ -214,12 +223,9 @@ const setModifyData = data => {
             dataTransfer.items.add(file);
             imageInput.files = dataTransfer.files;
         });
-    } else {
+    } else if (imagePreviewText) {
         imagePreviewText.style.display = 'none';
     }
-
-    boardWrite.title = data.post_title;
-    boardWrite.content = data.post_content;
 
     observeSignupData();
 };

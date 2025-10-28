@@ -271,3 +271,63 @@ exports.softDeletePost = async (request, response, next) => {
         return next(error);
     }
 };
+
+// 공감 추가/취소
+exports.toggleLike = async (request, response, next) => {
+    const { post_id: postId } = request.params;
+    const { userid: userId } = request.headers;
+
+    try {
+        if (!postId) {
+            const error = new Error(STATUS_MESSAGE.INVALID_POST_ID);
+            error.status = STATUS_CODE.BAD_REQUEST;
+            throw error;
+        }
+
+        const requestData = {
+            postId,
+            userId
+        };
+        const responseData = await postModel.toggleLike(requestData);
+
+        if (!responseData) {
+            const error = new Error('공감 처리 실패');
+            error.status = STATUS_CODE.INTERNAL_SERVER_ERROR;
+            throw error;
+        }
+
+        return response.status(STATUS_CODE.OK).json({
+            message: '공감 처리 완료',
+            data: responseData
+        });
+    } catch (error) {
+        return next(error);
+    }
+};
+
+// 사용자의 공감 여부 확인
+exports.checkUserLike = async (request, response, next) => {
+    const { post_id: postId } = request.params;
+    const { userid: userId } = request.headers;
+
+    try {
+        if (!postId) {
+            const error = new Error(STATUS_MESSAGE.INVALID_POST_ID);
+            error.status = STATUS_CODE.BAD_REQUEST;
+            throw error;
+        }
+
+        const requestData = {
+            postId,
+            userId
+        };
+        const responseData = await postModel.checkUserLike(requestData);
+
+        return response.status(STATUS_CODE.OK).json({
+            message: null,
+            data: responseData
+        });
+    } catch (error) {
+        return next(error);
+    }
+};

@@ -7,10 +7,15 @@
     <link rel="stylesheet" href="../css/main-page.css" />
   </head>
   <body>
+    <!-- 배경 비디오 -->
+    <video class="background-video" id="backgroundVideo" autoplay muted playsinline webkit-playsinline>
+    </video>
+
     <header class="site-header">
       <!-- 중앙 네비바 제외 요청에 따라 간단한 상단 바만 남깁니다 -->
-      <div class="logo">AOTD</div>
+      <a href="/html/main-page.html" class="logo" style="text-decoration: none; color: inherit; cursor: pointer;">AOOTD</a>
       <div class="nav-actions">
+        <a href="#" id="authBtn" class="auth-btn">LOGIN</a>
         <!-- 'Menu' 텍스트 제거, 햄버거만 남김 -->
         <button class="hamburger" aria-label="메뉴 열기" aria-expanded="false">
           <span></span>
@@ -24,7 +29,7 @@
       <div class="hero-inner">
         <div class="hero-content">
           <p class="hero-sub">가장 자연스럽고 기억하기 좋은 건</p>
-          <h1 class="hero-title">AOTD</h1>
+          <h1 class="hero-title">AOOTD</h1>
           <a class="more-view" href="/html/index.html">more view &rarr;</a>
         </div>
         <!-- 오른쪽 DA 텍스트는 요청에 따라 제거 -->
@@ -32,7 +37,7 @@
     </main>
 
     <!-- Sidebar overlay (hidden by default) -->
-    <div class="sidebar-overlay" role="dialog" aria-hidden="true">
+    <div class="sidebar-overlay" role="dialog" aria-hidden="true" inert>
       <aside class="sidebar" aria-label="사이트 메뉴">
         <nav class="sidebar-nav">
           <ul class="sidebar-list">
@@ -40,13 +45,13 @@
             <li><a href="#">Style</a></li>
             <li><a href="#">People</a></li>
             <li><a href="/html/index.html">Community</a></li>
-            <li><a href="#">Logout</a></li>
+            <li><a href="/html/mypage.html">MyPage</a></li>
           </ul>
         </nav>
 
         <div class="sidebar-footer">
           <div class="footer-col">
-            <p class="muted">Work at AOTD</p>
+            <p class="muted">Work at AOOTD</p>
             <a href="mailto:hr_wayble@way-ble.com">ga3un5218@gmail.com</a>
           </div>
           <div class="footer-col address">
@@ -63,6 +68,8 @@
     <footer class="site-footer">
       <!-- 필요 시 추가 -->
     </footer>
+    <script type="module" src="../js/main-page-module.js"></script>
+    <script src="../js/sidebar.js"></script>
     <script src="../js/main-page.js"></script>
   </body>
 </html>

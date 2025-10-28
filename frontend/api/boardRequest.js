@@ -45,3 +45,25 @@ export const getComments = async postId => {
     });
     return result;
 };
+
+export const toggleLike = async postId => {
+    const result = await fetch(`${getServerUrl()}/posts/${postId}/like`, {
+        method: 'POST',
+        headers: {
+            session: getCookie('session'),
+            userId: getCookie('userId'),
+        },
+    });
+    return result;
+};
+
+export const checkUserLike = async postId => {
+    const result = await fetch(`${getServerUrl()}/posts/${postId}/like/check`, {
+        headers: {
+            session: getCookie('session'),
+            userId: getCookie('userId'),
+        },
+        noCORS: true,
+    });
+    return result;
+};

@@ -164,10 +164,16 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(255,255,255,0.02);
-  border: 1px solid rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.1);
   padding: 8px 12px;
   border-radius: 999px;
+  transition: all 0.2s ease;
+}
+.search-pill:hover,
+.search-pill:focus-within {
+  background: rgba(255,255,255,0.05);
+  border-color: rgba(255,255,255,0.15);
 }
 .search-pill input {
   background: transparent;
@@ -175,10 +181,18 @@ body {
   color: #cfcfcf;
   outline: none;
   width: 260px;
+  font-size: 16px;
+  transition: color 0.2s ease;
+}
+.search-pill input::placeholder {
+  color: rgba(255,255,255,0.4);
+}
+.search-pill input:focus {
+  color: #ffffff;
 }
 .search-pill button {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.1);
   width: 34px;
   height: 34px;
   border-radius: 50%;
@@ -186,6 +200,13 @@ body {
   place-items: center;
   cursor: pointer;
   color: #fff;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+.search-pill button:hover {
+  background: rgba(255,255,255,0.12);
+  border-color: rgba(255,255,255,0.15);
+  transform: scale(1.05);
 }
 
 /* adjust listing container so it sits visually below the hero with large gutters */
@@ -253,8 +274,14 @@ a { color: inherit !important; }
 }
 .site-header .logo {
   font-weight: 700;
-  font-size: 20px;
+  font-size: 26px;
   color: #ffffff;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.site-header .logo:hover {
+  opacity: 0.8;
 }
 
 .nav-actions {

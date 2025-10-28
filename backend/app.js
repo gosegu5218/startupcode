@@ -3,7 +3,6 @@ require('dotenv').config({ path: './.env.dev' });
 const express = require('express');
 const session = require('express-session');
 const cors = require('cors');
-const route = require('./route/index.js');
 const dbConnect = require('./database/index.js');
 const { errorHandler } = require('./util/errorHandler.js');
 const timeout = require('connect-timeout');
@@ -18,8 +17,9 @@ const PORT = process.env.BACKEND_PORT || 3000;
 //  CORS 설정 (모든 origin 허용)
 app.use(cors('*'));
 
-//  정적 파일 제공 (프로필 이미지 등)
+//  정적 파일 제공
 app.use('/public', express.static('public'));
+app.use(express.static('../frontend')); // 프론트엔드 전체 폴더 정적 제공
 
 //  JSON 및 Form 데이터 파싱
 app.use(express.json());
@@ -55,8 +55,16 @@ app.use(timeout('5s'));
 //  보안 헤더 설정
 app.use(helmet());
 
-//  라우터 등록 (라우터 파일에서 prefix 처리함)
-app.use('/', route);
+//  루트 경로 처리 (main-page.html 제공)
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/../frontend/html/main-page.html');
+});
+
+//  라우터 등록 (API 라우터)
+app.use('/users', require('./route/userRoute'));
+app.use('/posts', require('./route/postRoute'));
+app.use('/files', require('./route/fileRoute'));
+app.use('/posts', require('./route/commentRoute'));
 
 //  에러 핸들러 등록 (항상 마지막에 위치)
 app.use(errorHandler);

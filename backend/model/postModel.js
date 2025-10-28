@@ -126,21 +126,9 @@ exports.getPost = async (requestData, response) => {
         post_table.created_at,
         post_table.updated_at,
         post_table.deleted_at,
-        CASE
-            WHEN post_table.\`like\` >= 1000000 THEN CONCAT(ROUND(post_table.\`like\` / 1000000, 1), 'M')
-            WHEN post_table.\`like\` >= 1000 THEN CONCAT(ROUND(post_table.\`like\` / 1000, 1), 'K')
-            ELSE CAST(post_table.\`like\` AS CHAR)
-        END as \`like\`,
-        CASE
-            WHEN post_table.comment_count >= 1000000 THEN CONCAT(ROUND(post_table.comment_count / 1000000, 1), 'M')
-            WHEN post_table.comment_count >= 1000 THEN CONCAT(ROUND(post_table.comment_count / 1000, 1), 'K')
-            ELSE CAST(post_table.comment_count AS CHAR)
-        END as comment_count,
-        CASE
-            WHEN post_table.hits >= 1000000 THEN CONCAT(ROUND(post_table.hits / 1000000, 1), 'M')
-            WHEN post_table.hits >= 1000 THEN CONCAT(ROUND(post_table.hits / 1000, 1), 'K')
-            ELSE CAST(post_table.hits AS CHAR)
-        END as hits,
+        post_table.\`like\`,
+        post_table.comment_count,
+        post_table.hits,
         COALESCE(file_table.file_path, NULL) AS filePath
     FROM post_table
     LEFT JOIN file_table ON post_table.file_id = file_table.file_id
@@ -264,4 +252,113 @@ exports.softDeletePost = async requestData => {
     if (!results || results.affectedRows === 0) return null;
 
     return results;
+};
+
+// 공감 추가/취소
+exports.toggleLike = async requestData => {
+    const { postId, userId } = requestData;
+
+    // 공감 여부 확인 (소프트 삭제되지 않은 것만)
+    const checkLikeSql = `
+    SELECT like_id FROM like_table
+    WHERE post_id = ? AND user_id = ? AND deleted_at IS NULL;
+    `;
+    const checkResults = await dbConnect.query(checkLikeSql, [postId, userId]);
+
+    if (checkResults && checkResults.length > 0) {
+        // 이미 공감했으면 취소 (소프트 삭제)
+        const unlikeSql = `
+        UPDATE like_table
+        SET deleted_at = NOW()
+        WHERE post_id = ? AND user_id = ? AND deleted_at IS NULL;
+        `;
+        await dbConnect.query(unlikeSql, [postId, userId]);
+
+        // 게시글 like 수 감소
+        const decreaseLikeSql = `
+        UPDATE post_table
+        SET \`like\` = \`like\` - 1
+        WHERE post_id = ? AND \`like\` > 0;
+        `;
+        await dbConnect.query(decreaseLikeSql, [postId]);
+
+        // 최신 like 수 가져오기
+        const getLikeSql = `
+        SELECT \`like\` FROM post_table WHERE post_id = ?;
+        `;
+        const likeResult = await dbConnect.query(getLikeSql, [postId]);
+        
+        return { liked: false, likeCount: likeResult[0].like };
+    } else {
+        // 소프트 삭제된 레코드가 있는지 확인
+        const checkDeletedSql = `
+        SELECT like_id FROM like_table
+        WHERE post_id = ? AND user_id = ? AND deleted_at IS NOT NULL;
+        `;
+        const checkDeletedResults = await dbConnect.query(checkDeletedSql, [postId, userId]);
+
+        if (checkDeletedResults && checkDeletedResults.length > 0) {
+            // 소프트 삭제된 레코드를 복구
+            const restoreSql = `
+            UPDATE like_table
+            SET deleted_at = NULL
+            WHERE post_id = ? AND user_id = ? AND deleted_at IS NOT NULL;
+            `;
+            await dbConnect.query(restoreSql, [postId, userId]);
+
+            // 게시글 like 수 증가
+            const increaseLikeSql = `
+            UPDATE post_table
+            SET \`like\` = \`like\` + 1
+            WHERE post_id = ?;
+            `;
+            await dbConnect.query(increaseLikeSql, [postId]);
+
+            // 최신 like 수 가져오기
+            const getLikeSql = `
+            SELECT \`like\` FROM post_table WHERE post_id = ?;
+            `;
+            const likeResult = await dbConnect.query(getLikeSql, [postId]);
+
+            return { liked: true, likeCount: likeResult[0].like };
+        } else {
+            // 새로운 공감 추가
+            const likeSql = `
+            INSERT INTO like_table (post_id, user_id)
+            VALUES (?, ?);
+            `;
+            await dbConnect.query(likeSql, [postId, userId]);
+
+            // 게시글 like 수 증가
+            const increaseLikeSql = `
+            UPDATE post_table
+            SET \`like\` = \`like\` + 1
+            WHERE post_id = ?;
+            `;
+            await dbConnect.query(increaseLikeSql, [postId]);
+
+            // 최신 like 수 가져오기
+            const getLikeSql = `
+            SELECT \`like\` FROM post_table WHERE post_id = ?;
+            `;
+            const likeResult = await dbConnect.query(getLikeSql, [postId]);
+
+            return { liked: true, likeCount: likeResult[0].like };
+        }
+    }
+};
+
+// 사용자의 공감 여부 확인
+exports.checkUserLike = async requestData => {
+    const { postId, userId } = requestData;
+
+    const checkLikeSql = `
+    SELECT like_id FROM like_table
+    WHERE post_id = ? AND user_id = ? AND deleted_at IS NULL;
+    `;
+    const checkResults = await dbConnect.query(checkLikeSql, [postId, userId]);
+
+    return {
+        liked: checkResults && checkResults.length > 0
+    };
 };

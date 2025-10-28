@@ -5,14 +5,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link
             rel="stylesheet"
-            href="../css/board-write.css?v=5"
+            href="../css/board-write.css?v=6"
             crossorigin="anonymous"
         />
         <title>게시글 작성</title>
     </head>
     <body>
         <header class="site-header">
-            <div class="logo">AOTD</div>
+            <a href="/html/main-page.html" class="logo" style="text-decoration: none; color: inherit; cursor: pointer;">AOOTD</a>
             <div class="nav-actions">
                 <button class="hamburger" aria-label="메뉴 열기" aria-expanded="false">
                     <span></span>
@@ -71,7 +71,7 @@
         <div class="background"></div>
 
         <!-- Sidebar overlay (hidden by default) -->
-        <div class="sidebar-overlay" role="dialog" aria-hidden="true">
+        <div class="sidebar-overlay" role="dialog" aria-hidden="true" inert>
             <aside class="sidebar" aria-label="사이트 메뉴">
                 <nav class="sidebar-nav">
                     <ul class="sidebar-list">
@@ -79,6 +79,7 @@
                         <li><a href="#">Style</a></li>
                         <li><a href="#">People</a></li>
                         <li><a href="/html/index.html">Community</a></li>
+                        <li><a href="/html/mypage.html">MyPage</a></li>
                     </ul>
                 </nav>
 
@@ -102,6 +103,6 @@
             <!-- 필요 시 추가 -->
         </footer>
     </body>
-    <script src="../js/board-write.js?v=5" type="module"></script>
+    <script src="../js/board-write.js?v=6" type="module"></script>
     <script src="../js/sidebar.js"></script>
 </html>
