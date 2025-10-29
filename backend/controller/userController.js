@@ -241,7 +241,7 @@ exports.checkAuth = async (request, response, next) => {
 // 비밀번호 변경
 exports.changePassword = async (request, response, next) => {
     const { user_id: userId } = request.params;
-    const { password } = request.body;
+    const { password, oldPassword } = request.body;
 
     try {
         if (!userId) {
@@ -252,6 +252,24 @@ exports.changePassword = async (request, response, next) => {
 
         if (!password || !validPassword(password)) {
             const error = new Error(STATUS_MESSAGE.INVALID_PASSWORD);
+            error.status = STATUS_CODE.BAD_REQUEST;
+            throw error;
+        }
+
+        // 현재 사용자의 비밀번호 정보 가져오기 (비밀번호 비교를 위해)
+        const dbConnect = require('../database/index.js');
+        const getUserSql = `SELECT password FROM user_table WHERE user_id = ? AND deleted_at IS NULL;`;
+        const userResults = await dbConnect.query(getUserSql, [userId]);
+        
+        if (!userResults || userResults.length === 0) {
+            const error = new Error(STATUS_MESSAGE.NOT_FOUND_USER);
+            error.status = STATUS_CODE.NOT_FOUND;
+            throw error;
+        }
+
+        // 새 비밀번호가 기존 비밀번호와 같은지 확인
+        if (await bcrypt.compare(password, userResults[0].password)) {
+            const error = new Error('기존 비밀번호와 동일합니다. 새로운 비밀번호를 입력해주세요.');
             error.status = STATUS_CODE.BAD_REQUEST;
             throw error;
         }

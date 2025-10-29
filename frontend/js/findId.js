@@ -3,6 +3,15 @@ const nicknameInput = document.getElementById('nickname');
 const resultBox = document.getElementById('resultBox'); // 이건 이제 안 써도 됨
 const foundEmail = document.getElementById('foundEmail'); // 이 부분도 사용 X
 
+// 아이디 찾기 버튼 스타일 강제 적용
+if (findIdBtn) {
+  findIdBtn.style.background = 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)';
+  findIdBtn.style.color = '#ffffff';
+  findIdBtn.style.border = '1px solid #3b82f6';
+  findIdBtn.style.boxShadow = '0 4px 16px rgba(59, 130, 246, 0.3)';
+  findIdBtn.style.fontWeight = '600';
+}
+
 findIdBtn.addEventListener('click', async (e) => {
   e.preventDefault();
 

@@ -115,8 +115,14 @@ const eventSet = () => {
 
     // 폼 제출 이벤트 방지 - 로그인 버튼에서만
     document.querySelector('.login-form').addEventListener('submit', (event) => {
-        event.preventDefault();
-        loginClick();
+        // 링크 클릭이 아닌 경우에만 preventDefault
+        if (event.submitter && event.submitter.id === 'login') {
+            event.preventDefault();
+            loginClick();
+        } else if (!event.submitter) {
+            event.preventDefault();
+            loginClick();
+        }
     });
 
     // 엔터키 이벤트 - 입력 필드에서만 동작
@@ -189,6 +195,18 @@ const init = async () => {
         loginButton.style.border = '1px solid #000000';
         loginButton.style.fontWeight = '600';
     }
+    
+    // 링크들이 정상 작동하도록 명시적 처리
+    const findLinks = document.querySelectorAll('.findLink');
+    findLinks.forEach(link => {
+        link.addEventListener('click', (event) => {
+            event.stopPropagation();
+            const href = link.getAttribute('href');
+            if (href) {
+                window.location.href = href;
+            }
+        });
+    });
     
     localStorage.clear();
     document.cookie = '';

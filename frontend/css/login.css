@@ -313,6 +313,17 @@ body {
     font-weight: 400;
     line-height: normal;
     margin-bottom: -5px;
+    transition: color 0.2s ease;
+}
+
+/* 성공 메시지용 스타일 */
+.right-panel .inputBox .helperText.success {
+    color: #10b981 !important;
+}
+
+/* 에러 메시지용 스타일 */
+.right-panel .inputBox .helperText.error {
+    color: #ef4444 !important;
 }
 
 .buttons button,
@@ -344,7 +355,7 @@ button#login,
   will-change: transform, background;
 }
 
-.buttons button {
+.buttons button:not(.modifypassword-page button) {
   background: rgba(255, 255, 255, 0.03) !important;
   color: #000000 !important;
   border: 1px solid #000000 !important;
@@ -352,6 +363,13 @@ button#login,
   font-weight: 600 !important;
   transition: transform 0.18s ease-in-out, opacity 0.2s ease-in-out, background 0.18s;
   will-change: transform, background;
+}
+
+/* 비밀번호 수정 페이지와 아이디 찾기 페이지가 아닌 경우에만 적용 */
+body:not(.modifypassword-page):not(.findid-page) .buttons button {
+  background: rgba(255, 255, 255, 0.03) !important;
+  color: #000000 !important;
+  border: 1px solid #000000 !important;
 }
 
 .buttons button:hover {
@@ -469,17 +487,23 @@ button#signupBtn,
 }
 
 /* 아이디 찾기 페이지 */
-.findid-page .buttons button {
+.findid-page .buttons button,
+.findid-page .right-panel .buttons button,
+.findid-page button#findIdBtn {
   background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
   color: #ffffff !important;
   border: 1px solid #3b82f6 !important;
   box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3) !important;
+  font-weight: 600 !important;
 }
 
-.findid-page .buttons button:hover {
+.findid-page .buttons button:hover,
+.findid-page .right-panel .buttons button:hover,
+.findid-page button#findIdBtn:hover {
   background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
   border-color: #2563eb !important;
   box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4) !important;
+  transform: translateY(-2px) !important;
 }
 
 .findid-page .buttons a {
@@ -498,17 +522,23 @@ button#signupBtn,
 }
 
 /* 비밀번호 수정 페이지 */
-.modifypassword-page .buttons button {
+.modifypassword-page .buttons button,
+.modifypassword-page .right-panel .buttons button,
+.modifypassword-page button#modifyBtn {
   background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
   color: #ffffff !important;
   border: 1px solid #3b82f6 !important;
   box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3) !important;
+  font-weight: 600 !important;
 }
 
-.modifypassword-page .buttons button:hover {
+.modifypassword-page .buttons button:hover,
+.modifypassword-page .right-panel .buttons button:hover,
+.modifypassword-page button#modifyBtn:hover {
   background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
   border-color: #2563eb !important;
   box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4) !important;
+  transform: translateY(-2px) !important;
 }
 
 .modifypassword-page .buttons a {
@@ -640,6 +670,10 @@ button#signupBtn,
   color: #3b82f6;
   padding: 0 8px;
   transition: color 0.2s ease;
+  position: relative;
+  z-index: 10;
+  pointer-events: auto;
+  cursor: pointer;
 }
 
 .right-panel .findLink:hover {

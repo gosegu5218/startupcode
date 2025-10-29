@@ -15,7 +15,7 @@ router.post('/logout', isLoggedIn, userController.logoutUser);
 router.post('/find-id', userController.findUserId);
 
 router.put('/:user_id', isLoggedIn, userController.updateUser);
-router.patch('/:user_id/password', isLoggedIn, userController.changePassword);
+router.patch('/:user_id/password', userController.changePassword);
 router.delete('/:user_id', isLoggedIn, userController.softDeleteUser);
 
 module.exports = router;
