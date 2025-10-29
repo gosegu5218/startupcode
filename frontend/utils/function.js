@@ -40,9 +40,9 @@ export const deleteCookie = cookie_name => {
 export const serverSessionCheck = async () => {
     const res = await fetch(`${getServerUrl()}/users/auth/check`, {
         method: 'GET',
+        credentials: 'include', // 세션 쿠키 포함
         headers: {
-            session: getCookie('session'),
-            userId: getCookie('userId'),
+            'Content-Type': 'application/json',
         },
     });
     return res;

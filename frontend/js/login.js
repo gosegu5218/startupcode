@@ -44,25 +44,43 @@ const loginClick = async () => {
         return;
     }
 
-    const response = await userLogin(email, password);
+    try {
+        const response = await userLogin(email, password);
 
-    console.log('status:', response.status);
+        console.log('로그인 응답 상태:', response.status);
 
-    if (!response.ok) {
-        updatePasswordHelperText('*입력하신 계정 정보가 정확하지 않습니다.');
-        return;
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({ message: '로그인 실패' }));
+            console.log('로그인 오류:', errorData);
+            updatePasswordHelperText('*입력하신 계정 정보가 정확하지 않습니다.');
+            return;
+        }
+
+        const result = await response.json();
+        console.log('로그인 성공:', result);
+
+        if (response.status !== HTTP_OK) {
+            updatePasswordHelperText('*입력하신 계정 정보가 정확하지 않습니다.');
+            return;
+        }
+
+        // 쿠키 설정 (세션은 자동으로 처리됨)
+        if (result.data.sessionId) {
+            setCookie('session', result.data.sessionId, 14);
+        }
+        if (result.data.userId) {
+            setCookie('userId', result.data.userId, 14);
+        }
+
+        console.log('메인페이지로 이동 중...');
+        
+        // 로그인 후 메인 페이지로 이동
+        window.location.href = '/html/main-page.html';
+        
+    } catch (error) {
+        console.error('로그인 요청 오류:', error);
+        updatePasswordHelperText('*네트워크 오류가 발생했습니다. 다시 시도해주세요.');
     }
-
-    const result = await response.json();
-    if (response.status !== HTTP_OK) {
-        updatePasswordHelperText('*입력하신 계정 정보가 정확하지 않습니다.');
-        return;
-    }
-
-    setCookie('session', result.data.sessionId, 14);
-    setCookie('userId', result.data.userId, 14);
-    // 로그인 후 메인 페이지로 이동 (요청에 따라 main-page.html로 변경)
-    location.href = '/html/main-page.html';
 };
 
 const observeSignupData = () => {

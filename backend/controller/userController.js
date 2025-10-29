@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt');
 const dbConnect = require('../database');
 const userModel = require('../model/userModel.js');
 const {
@@ -41,6 +42,10 @@ exports.loginUser = async (request, response, next) => {
 		        throw error;
 		    }
     
+        console.log('=== 로그인 디버깅 ===');
+        console.log('로그인 시도:', email);
+        console.log('현재 Session ID:', request.sessionID);
+        
         const requestData = {
             email,
             password,
@@ -48,11 +53,22 @@ exports.loginUser = async (request, response, next) => {
         };
         const responseData = await userModel.loginUser(requestData, response);
 
+        console.log('로그인 응답 데이터:', responseData);
+
         if (!responseData || responseData === null) {
             const error = new Error(STATUS_MESSAGE.INVALID_EMAIL_OR_PASSWORD);
             error.status = STATUS_CODE.UNAUTHORIZED;
             throw error;
         }
+        
+        // 세션에 사용자 정보 저장
+        request.session.userId = responseData.userId;
+        request.session.email = responseData.email;
+        request.session.isLoggedIn = true;
+        
+        console.log('로그인 성공:', responseData.email);
+        console.log('세션 저장 후 Session ID:', request.sessionID);
+        
         return response.status(STATUS_CODE.OK).json({
             message: STATUS_MESSAGE.LOGIN_SUCCESS,
             data: responseData,
@@ -194,45 +210,60 @@ exports.updateUser = async (request, response, next) => {
 
 // 로그인 상태 체크
 exports.checkAuth = async (request, response, next) => {
-    const { userid: userId } = request.headers;
-
     try {
-        if (!userId) {
-		        const error = new Error(STATUS_MESSAGE.INVALID_USER_ID);
-		        error.status = STATUS_CODE.BAD_REQUEST;
-		        throw error;
-		    }
-    
-        const requestData = {
-            userId,
-        };
-
-        const userData = await userModel.getUser(requestData);
-
-        if (!userData) {
-            const error = new Error(STATUS_MESSAGE.NOT_FOUND_USER);
-            error.status = STATUS_CODE.NOT_FOUND;
-            throw error;
-        }
-
-        if (parseInt(userData.userId, 10) !== parseInt(userId, 10)) {
+        console.log('=== checkAuth 디버깅 ===');
+        console.log('Session ID:', request.sessionID);
+        console.log('Session 내용:', request.session);
+        
+        // 세션에서 로그인 상태 확인
+        if (!request.session.isLoggedIn || !request.session.userId) {
+            console.log('세션에 로그인 정보가 없습니다.');
             const error = new Error(STATUS_MESSAGE.REQUIRED_AUTHORIZATION);
             error.status = STATUS_CODE.UNAUTHORIZED;
             throw error;
         }
 
+        const userId = request.session.userId;
+        
+        // 사용자 정보 조회
+        const sql = `SELECT user_id, email, nickname, file_id FROM user_table WHERE user_id = ? AND deleted_at IS NULL;`;
+        const userResults = await dbConnect.query(sql, [userId]);
+
+        console.log('DB 조회 결과:', userResults);
+
+        if (!userResults || userResults.length === 0) {
+            console.log('사용자를 찾을 수 없습니다.');
+            const error = new Error(STATUS_MESSAGE.NOT_FOUND_USER);
+            error.status = STATUS_CODE.UNAUTHORIZED;
+            throw error;
+        }
+
+        const user = userResults[0];
+        let profileImagePath = null;
+
+        // 프로필 이미지가 있다면 가져오기
+        if (user.file_id) {
+            const imageSql = `SELECT file_path FROM file_table WHERE file_id = ? AND deleted_at IS NULL;`;
+            const imageResults = await dbConnect.query(imageSql, [user.file_id]);
+            if (imageResults && imageResults.length > 0) {
+                profileImagePath = imageResults[0].file_path;
+            }
+        }
+
+        console.log('인증 성공:', user.email);
+
         return response.status(STATUS_CODE.OK).json({
-            message: null,
+            message: STATUS_MESSAGE.AUTH_CHECK_SUCCESS || 'Authentication successful',
             data: {
-                userId,
-                email: userData.email,
-                nickname: userData.nickname,
-                profileImagePath: userData.profile_image,
-                auth_token: userData.session_id,
+                userId: user.user_id,
+                email: user.email,
+                nickname: user.nickname,
+                profileImagePath: profileImagePath,
                 auth_status: true,
             },
         });
     } catch (error) {
+        console.log('checkAuth 오류:', error.message);
         return next(error);
     }
 };
@@ -330,22 +361,35 @@ exports.softDeleteUser = async (request, response, next) => {
 
 // 로그아웃
 exports.logoutUser = async (request, response, next) => {
-    const { userid: userId } = request.headers;
-
     try {
+        console.log('=== 로그아웃 디버깅 ===');
+        console.log('Session ID:', request.sessionID);
+        console.log('Session 내용:', request.session);
+        
+        const userId = request.session.userId;
+        
+        // 세션 삭제
         request.session.destroy(async error => {
             if (error) {
+                console.log('세션 삭제 오류:', error);
                 return next(error);
             }
 
             try {
-                const requestData = {
-                    userId,
-                };
-                await userModel.destroyUserSession(requestData, response);
+                if (userId) {
+                    const requestData = {
+                        userId,
+                    };
+                    await userModel.destroyUserSession(requestData);
+                }
 
-                return response.status(STATUS_CODE.END).end();
+                console.log('로그아웃 성공');
+                return response.status(STATUS_CODE.OK).json({
+                    message: '로그아웃되었습니다.',
+                    data: null
+                });
             } catch (error) {
+                console.log('DB 세션 삭제 오류:', error);
                 return next(error);
             }
         });
@@ -436,8 +480,6 @@ exports.findUserId = async (req, res) => {
   }
 };
 
-
-const bcrypt = require('bcrypt'); 
 const generateTempPassword = () => {
   return Math.random().toString(36).slice(-10); 
 };

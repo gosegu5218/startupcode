@@ -6,38 +6,97 @@
         <title>AOOTD - 마이페이지</title>
         <link rel="stylesheet" href="../css/login.css" crossorigin="anonymous" />
     </head>
-    <body>
-        <section class="wrap">
-            <h1 class="title">마이페이지</h1>
-            <article>
-                <div class="inputBox">
-                    <label for="nickname">닉네임</label>
-                    <input
-                        type="text"
-                        name="nickname"
-                        id="nickname"
-                        placeholder="닉네임을 입력하세요"
-                        disabled
-                    />
+    <body class="mypage-page">
+        <div class="container">
+            <!-- 왼쪽 패널: 브랜딩 -->
+            <div class="left-panel">
+                <div class="brand-section">
+                    <h1 class="brand-title">AOOTD</h1>
+                    <p class="brand-subtitle">Awesome Outfit Of The Day</p>
+                    <div class="brand-description">
+                        <p>당신만의 특별한 스타일을</p>
+                        <p>공유하고 발견해보세요</p>
+                    </div>
                 </div>
-                <div class="inputBox">
-                    <label for="email">이메일</label>
-                    <input
-                        type="text"
-                        name="email"
-                        id="email"
-                        placeholder="이메일"
-                        disabled
-                    />
+                <div class="decorative-elements">
+                    <div class="circle circle-1"></div>
+                    <div class="circle circle-2"></div>
+                    <div class="circle circle-3"></div>
                 </div>
-                <div class="buttons">
-                    <button id="modifyInfo">회원정보 수정</button>
-                    <button id="modifyPassword">비밀번호 변경</button>
+            </div>
+
+            <!-- 오른쪽 패널: 마이페이지 폼 -->
+            <div class="right-panel">
+                <div class="form-container">
+                    <div class="form-header">
+                        <h2 class="form-title">마이페이지</h2>
+                        <p class="form-subtitle">내 정보를 확인하고 수정하세요</p>
+                    </div>
+                    
+                    <div class="profile-section">
+                        <div class="profile-image">
+                            <img id="profileImg" src="../public/image/profile/default.jpg" alt="프로필 이미지" />
+                            <div class="profile-upload" id="profileUpload" style="display: none;">
+                                <label for="profileInput" class="upload-label">변경</label>
+                                <input type="file" id="profileInput" accept="image/*" style="display: none;" />
+                            </div>
+                        </div>
+                        <div class="profile-info">
+                            <div class="inputBox">
+                                <label for="nickname">닉네임</label>
+                                <input
+                                    type="text"
+                                    name="nickname"
+                                    id="nickname"
+                                    placeholder="닉네임"
+                                    readonly
+                                />
+                                <p class="helperText" name="nickname"></p>
+                            </div>
+                            <div class="inputBox">
+                                <label for="email">이메일</label>
+                                <input
+                                    type="email"
+                                    name="email"
+                                    id="email"
+                                    placeholder="이메일"
+                                    disabled
+                                    readonly
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button type="button" id="editToggleBtn" class="primary-btn">
+                            <span>회원정보 수정</span>
+                        </button>
+                        <button type="button" id="saveBtn" class="primary-btn" style="display: none;">
+                            <span>저장하기</span>
+                        </button>
+                        <button type="button" id="cancelBtn" class="secondary-btn" style="display: none;">
+                            <span>취소</span>
+                        </button>
+                        <button type="button" id="modifyPassword" class="secondary-btn">
+                            <span>비밀번호 변경</span>
+                        </button>
+                        <button type="button" id="logoutBtn" class="logout-btn">
+                            <span>로그아웃</span>
+                        </button>
+                        <button type="button" id="deleteAccountBtn" class="delete-btn" style="display: none;">
+                            <span>회원 탈퇴</span>
+                        </button>
+                    </div>
+
+                    <div class="quick-links">
+                        <a href="/html/main-page.html" class="link">메인으로</a>
+                        <a href="/html/board.html" class="link">게시판</a>
+                    </div>
                 </div>
-            </article>
-        </section>
-        <div class="background"></div>
+            </div>
+        </div>
+        
+        <script type="module" src="../js/mypage-module.js"></script>
+        <script src="../js/mypage.js"></script>
     </body>
-    <script type="module" src="../js/mypage-module.js"></script>
-    <script src="../js/mypage.js"></script>
 </html>

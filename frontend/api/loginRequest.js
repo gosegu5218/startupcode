@@ -3,6 +3,7 @@ import { getServerUrl, getCookie } from '../utils/function.js';
 export const userLogin = async (email, password) => {
     const result = await fetch(`${getServerUrl()}/users/login`, {
         method: 'POST',
+        credentials: 'include', // 쿠키/세션 포함
         headers: {
             'Content-Type': 'application/json',
         },

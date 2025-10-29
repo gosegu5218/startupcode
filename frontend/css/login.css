@@ -782,3 +782,264 @@ button#signupBtn,
     font-size: 15px;
   }
 }
+
+/* ========================================
+   마이페이지 전용 스타일
+   ======================================== */
+
+.mypage-page .profile-section {
+  display: flex;
+  align-items: flex-start;
+  gap: 32px;
+  margin-bottom: 40px;
+  padding: 32px;
+  background: rgba(59, 130, 246, 0.02);
+  border-radius: 16px;
+  border: 1px solid rgba(59, 130, 246, 0.1);
+}
+
+.mypage-page .profile-image {
+  flex-shrink: 0;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid #3b82f6;
+  box-shadow: 0 8px 32px rgba(59, 130, 246, 0.2);
+  background: #f8fafc;
+}
+
+.mypage-page .profile-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mypage-page .profile-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.mypage-page .profile-info .inputBox {
+  margin-bottom: 0;
+}
+
+.mypage-page .profile-info .inputBox input {
+  background: rgba(255, 255, 255, 0.8);
+  border: 2px solid rgba(59, 130, 246, 0.2);
+  color: #1a1a1a;
+  font-weight: 500;
+  cursor: default;
+}
+
+.mypage-page .profile-info .inputBox input:focus {
+  outline: none;
+  border-color: rgba(59, 130, 246, 0.3);
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+.mypage-page .action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.mypage-page .action-buttons button {
+  width: 100%;
+  height: 56px;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.mypage-page .primary-btn {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);
+}
+
+.mypage-page .primary-btn:hover {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+  transform: translateY(-2px);
+}
+
+.mypage-page .secondary-btn {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  color: #475569;
+  border: 2px solid #e2e8f0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.mypage-page .secondary-btn:hover {
+  background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+  border-color: #cbd5e1;
+  color: #334155;
+  transform: translateY(-2px);
+}
+
+.mypage-page .logout-btn {
+  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+  color: #dc2626;
+  border: 2px solid #fecaca;
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.1);
+}
+
+.mypage-page .logout-btn:hover {
+  background: linear-gradient(135deg, #fecaca 0%, #fca5a5 100%);
+  border-color: #fca5a5;
+  color: #b91c1c;
+  transform: translateY(-2px);
+}
+
+.mypage-page .delete-btn {
+  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+  color: #dc2626;
+  border: 2px solid #fee2e2;
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.1);
+}
+
+.mypage-page .delete-btn:hover {
+  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+  border-color: #fecaca;
+  color: #b91c1c;
+  transform: translateY(-2px);
+}
+
+/* 프로필 업로드 오버레이 */
+.mypage-page .profile-image {
+  position: relative;
+}
+
+.mypage-page .profile-upload {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mypage-page .profile-upload:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.mypage-page .upload-label {
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 8px 16px;
+  border: 2px solid white;
+  border-radius: 20px;
+  transition: all 0.2s ease;
+}
+
+.mypage-page .upload-label:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+
+/* 편집 모드 스타일 */
+.mypage-page .profile-info input:not([readonly]) {
+  background: rgba(255, 255, 255, 1);
+  border: 2px solid #3b82f6;
+  color: #1a1a1a;
+  font-weight: 500;
+}
+
+.mypage-page .profile-info input:not([readonly]):focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+.mypage-page .quick-links {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.mypage-page .quick-links .link {
+  text-decoration: none;
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.mypage-page .quick-links .link:hover {
+  color: #3b82f6;
+  background: rgba(59, 130, 246, 0.05);
+  text-decoration: underline;
+}
+
+/* 마이페이지 반응형 */
+@media (max-width: 768px) {
+  .mypage-page .profile-section {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 24px;
+    padding: 24px;
+  }
+  
+  .mypage-page .profile-image {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .mypage-page .profile-info {
+    width: 100%;
+  }
+  
+  .mypage-page .action-buttons button {
+    height: 52px;
+    font-size: 15px;
+  }
+  
+  .mypage-page .quick-links {
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .mypage-page .profile-section {
+    padding: 20px;
+    gap: 20px;
+  }
+  
+  .mypage-page .profile-image {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .mypage-page .action-buttons {
+    gap: 12px;
+  }
+  
+  .mypage-page .action-buttons button {
+    height: 48px;
+    font-size: 14px;
+  }
+}

@@ -5,7 +5,7 @@ const isLoggedIn = require('../util/authUtil.js');
 const router = express.Router();
 
 router.get('/:user_id', isLoggedIn, userController.getUser);
-router.get('/auth/check', isLoggedIn, userController.checkAuth);
+router.get('/auth/check', userController.checkAuth);
 router.get('/email/check', userController.checkEmail);
 router.get('/nickname/check', userController.checkNickname);
 

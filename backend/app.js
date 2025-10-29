@@ -14,12 +14,42 @@ const { STATUS_MESSAGE } = require('./util/constant/httpStatusCode');
 const app = express();
 const PORT = process.env.BACKEND_PORT || 3000;
 
-//  CORS 설정 (모든 origin 허용)
-app.use(cors('*'));
+//  CORS 설정 (개발 환경용 - 모든 origin 허용)
+app.use(cors({
+  origin: true, // 모든 origin 허용 (개발 환경)
+  credentials: true, // 쿠키 전송 허용
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'userid', 'session', 'X-Requested-With'],
+  optionsSuccessStatus: 200 // IE11 호환성
+}));
+
+//  수동 CORS 헤더 추가 (백업용)
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', req.headers.origin || '*');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, userid, session, X-Requested-With');
+  
+  // OPTIONS 요청에 대한 응답
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+  
+  next();
+});
 
 //  정적 파일 제공
 app.use('/public', express.static('public'));
 app.use(express.static('../frontend')); // 프론트엔드 전체 폴더 정적 제공
+
+// 404 오류 로깅 최소화 (개발 환경용)
+app.use('/public', (req, res, next) => {
+  if (req.url.includes('default-profile.png')) {
+    // default-profile.png 요청을 default.jpg로 리다이렉트
+    return res.redirect('/public/image/profile/default.jpg');
+  }
+  next();
+});
 
 //  JSON 및 Form 데이터 파싱
 app.use(express.json());
@@ -30,11 +60,13 @@ app.use(
   session({
     secret: process.env.SESSION_SECRET || 'secret',
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true, // true로 변경하여 세션 생성 보장
+    name: 'sessionId', // 세션 쿠키 이름
     cookie: {
       httpOnly: true,
-      secure: false,
+      secure: false, // HTTPS가 아닌 환경에서는 false
       maxAge: 1000 * 60 * 60 * 24, // 1일
+      sameSite: 'lax', // CSRF 보호 및 CORS 호환성
     },
   })
 );
@@ -65,6 +97,15 @@ app.use('/users', require('./route/userRoute'));
 app.use('/posts', require('./route/postRoute'));
 app.use('/files', require('./route/fileRoute'));
 app.use('/posts', require('./route/commentRoute'));
+
+//  404 처리 (이미지 파일 관련 오류 최소화)
+app.use((req, res, next) => {
+  // 이미지 관련 404는 조용히 처리
+  if (req.url.includes('/public/image/') || req.url.includes('.png') || req.url.includes('.jpg')) {
+    return res.status(404).end(); // 로그 없이 조용히 처리
+  }
+  next();
+});
 
 //  에러 핸들러 등록 (항상 마지막에 위치)
 app.use(errorHandler);
