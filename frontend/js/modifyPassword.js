@@ -9,7 +9,7 @@ import {
     validPassword,
 } from '../utils/function.js';
 
-const button = document.querySelector('#signupBtn');
+const button = document.querySelector('#modifyBtn');
 
 const DEFAULT_PROFILE_IMAGE = '../public/image/profile/default.jpg';
 const HTTP_CREATED = 201;
@@ -33,10 +33,8 @@ const observeData = () => {
     // id, pw, pwck, nickname, profile 값이 모두 존재하는지 확인
     if (!password || !passwordCheck || password !== passwordCheck) {
         button.disabled = true;
-        button.style.backgroundColor = '#ACA0EB';
     } else {
         button.disabled = false;
-        button.style.backgroundColor = '#7F6AEE';
     }
 };
 
@@ -113,7 +111,8 @@ const modifyPassword = async () => {
 
 const init = () => {
     button.addEventListener('click', modifyPassword);
-    prependChild(document.body, Header('커뮤니티', 1, profileImage));
+    // 새로운 레이아웃에서는 헤더 제거
+    // prependChild(document.body, Header('커뮤니티', 1, profileImage));
     addEventForInputElements();
     observeData();
 };

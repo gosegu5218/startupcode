@@ -1,7 +1,6 @@
 import Dialog from '../component/dialog/dialog.js';
 import Header from '../component/header/header.js';
 import {
-    authCheckReverse,
     prependChild,
     validEmail,
     validPassword,
@@ -26,39 +25,67 @@ const signupData = {
 };
 
 const getSignupData = () => {
+    const signupBtn = document.querySelector('#signupBtn');
     const { email, password, passwordCheck, nickname } = signupData;
+    
     if (!email || !password || !passwordCheck || !nickname) {
         Dialog('필수 입력 사항', '모든 값을 입력해주세요.');
         return false;
     }
 
+    // 버튼 로딩 상태 설정
+    signupBtn.textContent = '가입 중...';
+    signupBtn.disabled = true;
+
     sendSignupData();
 };
 
 const sendSignupData = async () => {
+    const signupBtn = document.querySelector('#signupBtn');
     const { passwordCheck, ...props } = signupData;
-    if (localStorage.getItem('profilePath')) {
-        props.profileImagePath = localStorage.getItem('profilePath');
+    
+    try {
+        if (localStorage.getItem('profilePath')) {
+            props.profileImagePath = localStorage.getItem('profilePath');
+        }
+
+        if (props.password > MAX_PASSWORD_LENGTH) {
+            Dialog('비밀번호', '비밀번호는 20자 이하로 입력해주세요.');
+            resetSignupButton();
+            return;
+        }
+        
+        // signupData를 서버로 전송
+        const response = await userSignup(props);
+
+        // 응답이 성공적으로 왔을 경우
+        if (response.status === HTTP_CREATED) {
+            localStorage.removeItem('profilePath');
+
+            alert('회원가입이 완료되었습니다.\n 환영합니다 !');
+
+            location.href = '/html/login.html';
+        } else {
+            Dialog('회원 가입 실패', '잠시 뒤 다시 시도해 주세요', () => {});
+            localStorage.removeItem('profilePath');
+            resetSignupButton();
+            setTimeout(() => {
+                location.href = '/html/signup.html';
+            }, 1500);
+        }
+    } catch (error) {
+        console.error('회원가입 에러:', error);
+        Dialog('회원 가입 실패', '네트워크 오류가 발생했습니다. 다시 시도해 주세요.', () => {});
+        resetSignupButton();
     }
+};
 
-    if (props.password > MAX_PASSWORD_LENGTH) {
-        Dialog('비밀번호', '비밀번호는 20자 이하로 입력해주세요.');
-        return;
-    }
-    // signupData를 서버로 전송
-    const response = await userSignup(props);
-
-    // 응답이 성공적으로 왔을 경우
-    if (response.status === HTTP_CREATED) {
-        localStorage.removeItem('profilePath');
-
-        alert('회원가입이 완료되었습니다.\n 환영합니다 !');
-
-        location.href = '/html/login.html';
-    } else {
-        Dialog('회원 가입 실패', '잠시 뒤 다시 시도해 주세요', () => {});
-        localStorage.removeItem('profilePath');
-        location.href = '/html/signup.html';
+// 회원가입 버튼 상태 초기화 함수
+const resetSignupButton = () => {
+    const signupBtn = document.querySelector('#signupBtn');
+    if (signupBtn) {
+        signupBtn.textContent = '회원가입';
+        signupBtn.disabled = false;
     }
 };
 
@@ -252,12 +279,46 @@ const uploadProfileImage = () => {
 };
 
 const init = async () => {
-    await authCheckReverse();
-    prependChild(document.body, Header('커뮤니티', 1));
+    // 회원가입 페이지에서는 헤더 제거
+    // prependChild(document.body, Header('커뮤니티', 1));
     observeSignupData();
     addEventForInputElements();
     signupClick();
     uploadProfileImage();
+    
+    // 회원가입 버튼 스타일 강제 설정
+    const signupButton = document.querySelector('#signupBtn');
+    if (signupButton) {
+        signupButton.style.background = 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)';
+        signupButton.style.color = '#ffffff';
+        signupButton.style.border = '1px solid #3b82f6';
+        signupButton.style.fontWeight = '600';
+        signupButton.style.boxShadow = '0 4px 16px rgba(59, 130, 246, 0.3)';
+    }
+    
+    // 파일 업로드 버튼 스타일 설정
+    const fileLabel = document.querySelector('label[for="profileImage"]');
+    if (fileLabel) {
+        fileLabel.style.color = '#000000';
+        fileLabel.style.border = '1px solid #000000';
+        fileLabel.style.backgroundColor = '#ffffff';
+        fileLabel.style.fontWeight = '600';
+    }
+    
+    // 입력 필드 포커스 효과
+    const inputs = document.querySelectorAll('input[type="text"], input[type="password"], input[type="email"]');
+    inputs.forEach(input => {
+        input.addEventListener('focus', () => {
+            input.style.borderColor = '#000000';
+            input.style.outline = 'none';
+        });
+        
+        input.addEventListener('blur', () => {
+            if (!input.value.trim()) {
+                input.style.borderColor = '#ddd';
+            }
+        });
+    });
 };
 
 init();

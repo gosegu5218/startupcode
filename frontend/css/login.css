@@ -1,52 +1,255 @@
 @import url('./common/layout.css');
 @import url('../component/header/header.css');
 
-.title {
-    font-size: 32px;
-    line-height: 150px;
-    letter-spacing: -0.02em;
-    font-weight: 700;
-    color: #ffffff;
-    margin-bottom: 10px;
+:root {
+  --bg: #000000;
+  --muted: #cfcfcf;
+  --accent: #ffffff;
 }
 
-article {
-    width: 100%;
-    max-width: 360px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    row-gap: 35px;
+/* Override body styles for login page */
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", "Helvetica Neue", Arial;
+  background: var(--bg) !important;
+  color: var(--accent) !important;
+  position: relative !important;
+  display: block !important;
+  min-height: 100vh;
+  margin: 0 !important;
+  border: none !important;
+  flex-direction: unset !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  justify-content: flex-start !important;
+  align-items: flex-start !important;
+}
+
+/* Site header */
+.site-header {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 18px 24px;
+  background: #000000;
+  width: 100%;
+  position: relative;
+  z-index: 100;
+  border: none;
+  border-bottom: none;
+}
+
+.site-header .logo {
+  font-weight: 700;
+  font-size: 26px;
+  color: #ffffff;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+  border: none;
+}
+
+.site-header .logo:hover {
+  opacity: 0.8;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Main container - two column layout */
+.login-container {
+  display: flex;
+  min-height: 100vh; /* full viewport height */
+  width: 100%;
+}
+
+/* Left panel - branding */
+.left-panel {
+  flex: 0 0 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 80px 96px 80px 96px;
+  background: #000000;
+}
+
+.brand-content {
+  max-width: 600px;
+}
+
+.brand-title {
+  font-size: clamp(48px, 8vw, 120px);
+  line-height: 0.9;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  margin-bottom: 32px;
+}
+
+.logo-dot {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  background: #3b82f6;
+  border-radius: 50%;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+.brand-subtitle {
+  font-size: 28px;
+  line-height: 1.3;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 24px;
+  font-weight: 400;
+}
+
+.brand-description {
+  font-size: 18px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 48px;
+}
+
+.features-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.feature-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(59, 130, 246, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: #3b82f6;
+}
+
+/* Right panel - login form */
+.right-panel {
+  flex: 0 0 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 80px 96px 80px 96px;
+  background: #ffffff;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.login-form-container {
+  width: 100%;
+  max-width: 420px;
+}
+
+.login-title {
+  font-size: 32px;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 48px;
+  text-align: center;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
 }
 
 .inputBox {
     display: flex;
     flex-direction: column;
-    row-gap: 8px;
+    gap: 12px;
     width: 100%;
-
     position: relative;
 }
 
-.inputBox label {
-    font-size: 15px;
-    line-height: 17px;
+/* 오른쪽 패널 전용 입력 필드 스타일 */
+.right-panel .inputBox label {
+    font-size: 16px;
+    line-height: 1.2;
     letter-spacing: -0.02em;
-    font-weight: 700;
-    color: #ffffff;
+    font-weight: 600;
+    color: #1a1a1a;
+    opacity: 0.9;
 }
-.inputBox input {
-    font-size: 14px;
-    color: #ffffff;
-    line-height: 16.8px;
+
+.right-panel .inputBox input {
+    font-size: 16px;
+    color: #1a1a1a;
+    line-height: 1.4;
     width: 100%;
-    padding: 8px 10px;
+    padding: 16px 18px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 12px;
+    background: #f8f9fa;
+    transition: all 0.3s ease;
+}
 
-    border: 1px solid #ffffff;
-    border-radius: 4px;
+.right-panel .inputBox input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
 
-    background-color: transparent;
+.right-panel .inputBox input::placeholder {
+    color: rgba(26, 26, 26, 0.5);
+}
+
+/* 왼쪽 패널은 기존 스타일 유지 */
+.left-panel .inputBox label {
+    font-size: 16px;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    font-weight: 600;
+    color: #ffffff;
+    opacity: 0.9;
+}
+
+.left-panel .inputBox input {
+    font-size: 16px;
+    color: #ffffff;
+    line-height: 1.4;
+    width: 100%;
+    padding: 16px 18px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.left-panel .inputBox input:focus {
+    outline: none;
+    border-color: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1);
+}
+
+.left-panel .inputBox input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
 }
 
 .inputBox input[type='text'] {
@@ -85,73 +288,246 @@ article {
     display: flex;
     flex-direction: column;
     width: 100%;
-    margin-top: 42px;
+    margin-top: 32px;
+    gap: 16px;
 }
+
 .buttons p {
     position: absolute;
     top: -4px;
     transform: translate(0, -100%);
-    color: #f00;
+    color: #ef4444;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.right-panel .inputBox .helperText {
+    position: absolute;
+    bottom: 4px;
+    transform: translate(0, 100%);
+    color: #ef4444;
     font-size: 12px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    margin-bottom: -5px;
 }
+
 .buttons button,
-a {
-    font-size: 14px;
+.buttons a {
+    font-size: 16px;
+    font-weight: 600;
     cursor: pointer;
     width: 100%;
-    height: 33px;
+    height: 56px;
     display: flex;
     justify-content: center;
     align-items: center;
+    border-radius: 12px;
+    border: none;
+    text-decoration: none;
+    transition: all 0.25s ease;
+}
+
+/* 로그인 버튼 - 진한 검정색 텍스트와 테두리 */
+button#login,
+.buttons button#login,
+.login-form .buttons button#login {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid #000000 !important;
+  border-radius: 12px !important;
+  font-weight: 600 !important;
+  transition: transform 0.18s ease-in-out, opacity 0.2s ease-in-out, background 0.18s !important;
+  will-change: transform, background;
 }
 
 .buttons button {
-  background-image:
-    linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
-    url('../image/red_danchung.jpg');
-  background-size: cover;
-  background-position: center;
-  border-radius: 4px;
-  border: none;
-
-  color: #ffffff;
-  font-weight: 700;
-  margin-bottom: 12px;
-  padding: 12px 24px;
-  cursor: pointer;
-
-  transition: transform 0.25s ease-in-out, opacity 0.3s ease-in-out;
-  will-change: transform;
+  background: rgba(255, 255, 255, 0.03) !important;
+  color: #000000 !important;
+  border: 1px solid #000000 !important;
+  border-radius: 12px !important;
+  font-weight: 600 !important;
+  transition: transform 0.18s ease-in-out, opacity 0.2s ease-in-out, background 0.18s;
+  will-change: transform, background;
 }
 
 .buttons button:hover {
-  transform: scale(0.95);
+  transform: scale(0.98);
+  background: rgba(0, 0, 0, 0.8) !important;
 }
 
-.buttons a {
-    background-image:
-    linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
-    url('../image/blue_danchung.jpg');
-    background-size: cover;
-    background-position: center;
-    border-radius: 4px;
-    border: none;
-
-    color: #ffffff;
-    font-weight: 700;
-    margin-bottom: 12px;
-    padding: 12px 24px;
-    cursor: pointer;
-
-    transition: transform 0.25s ease-in-out, opacity 0.3s ease-in-out;
-    will-change: transform;
+.right-panel .buttons button#login:hover {
+  background: rgba(0, 0, 0, 0.8) !important;
+  color: #ffffff !important;
 }
 
-.buttons a:hover{
-    transform: scale(0.95)
+/* 오른쪽 패널(흰색 배경)에서는 검은색 배경으로 표시 */
+.right-panel .buttons button,
+.right-panel .buttons button#login {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid #000000 !important;
+  font-weight: 600 !important;
+}
+
+/* disabled 상태에서도 색상 유지 */
+.buttons button:disabled,
+.buttons button#login:disabled {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid #000000 !important;
+  opacity: 1 !important;
+  cursor: not-allowed !important;
+}
+
+.right-panel .buttons button:disabled,
+.right-panel .buttons button#login:disabled {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid #000000 !important;
+  opacity: 1 !important;
+  cursor: not-allowed !important;
+}
+
+/* 회원가입 버튼 스타일 */
+button#signupBtn,
+.buttons button#signupBtn {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid #3b82f6 !important;
+  border-radius: 12px !important;
+  font-weight: 600 !important;
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3) !important;
+}
+
+.right-panel button#signupBtn,
+.right-panel .buttons button#signupBtn {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid #3b82f6 !important;
+}
+
+.right-panel .buttons button:hover {
+  transform: scale(0.98);
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.right-panel .buttons button#signupBtn:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+  border-color: #2563eb !important;
+  box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4) !important;
+}
+
+.right-panel .buttons button#signupBtn:disabled {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid #3b82f6 !important;
+  opacity: 1 !important;
+  cursor: not-allowed;
+}
+
+
+
+.buttons button:active {
+  transform: translateY(0);
+}
+
+/* 로그인 페이지: 회원가입 버튼 - 파란색 */
+.login-page .buttons a {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  border: 1px solid #3b82f6;
+  color: #ffffff;
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);
+  font-weight: 600;
+}
+
+.login-page .buttons a:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  border-color: #2563eb;
+  box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4);
+}
+
+/* 회원가입 페이지: 로그인 하러가기 버튼 - 검정색 */
+.signup-page .buttons a {
+  background: #000000;
+  border: 1px solid #000000;
+  color: #ffffff;
+  box-shadow: none;
+  font-weight: 600;
+}
+
+.signup-page .buttons a:hover {
+  transform: scale(0.98);
+  background: rgba(0, 0, 0, 0.8);
+  border-color: #000000;
+  box-shadow: none;
+}
+
+/* 아이디 찾기 페이지 */
+.findid-page .buttons button {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid #3b82f6 !important;
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3) !important;
+}
+
+.findid-page .buttons button:hover {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+  border-color: #2563eb !important;
+  box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4) !important;
+}
+
+.findid-page .buttons a {
+  background: #000000;
+  border: 1px solid #000000;
+  color: #ffffff;
+  box-shadow: none;
+  font-weight: 600;
+}
+
+.findid-page .buttons a:hover {
+  transform: scale(0.98);
+  background: rgba(0, 0, 0, 0.8);
+  border-color: #000000;
+  box-shadow: none;
+}
+
+/* 비밀번호 수정 페이지 */
+.modifypassword-page .buttons button {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid #3b82f6 !important;
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3) !important;
+}
+
+.modifypassword-page .buttons button:hover {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+  border-color: #2563eb !important;
+  box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4) !important;
+}
+
+.modifypassword-page .buttons a {
+  background: #000000;
+  border: 1px solid #000000;
+  color: #ffffff;
+  box-shadow: none;
+  font-weight: 600;
+}
+
+.modifypassword-page .buttons a:hover {
+  transform: scale(0.98);
+  background: rgba(0, 0, 0, 0.8);
+  border-color: #000000;
+  box-shadow: none;
+}
+
+.buttons a:active {
+  transform: translateY(0);
 }
 
 .deleteFile {
@@ -213,37 +589,162 @@ a {
     object-fit: cover; /* 이미지 비율을 유지하면서 컨테이너를 채움 */
 }
 
-.wrap {
-  background-color: rgba(255, 255, 255, 0.3); 
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-radius: 16px;
-  padding: 100px 0 24px 0;
-  margin: 20px auto;
-  width: 100%;
-  max-width: 600px;
-  box-shadow: 0 4px 100px rgba(255, 251, 0, 0.356);
-  overflow: visible;
+/* Hamburger button styles */
+.hamburger {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 42px;
+  height: 30px;
+  padding: 6px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
 }
 
-.findAccount {
-  margin-top: 16px;
+.hamburger span {
+  display: block;
+  height: 3px;
+  background: #ffffff;
+  border-radius: 3px;
+  transition: all 0.18s ease;
+}
+
+.hamburger:focus, .hamburger:active {
+  outline: none;
+  box-shadow: none;
+}
+
+.hamburger[aria-expanded="true"] span:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.hamburger[aria-expanded="true"] span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger[aria-expanded="true"] span:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+/* 오른쪽 패널 전용 링크 스타일 */
+.right-panel .findAccount {
+  margin-top: 24px;
   text-align: center;
   font-size: 14px;
-  color: #303030;
+  color: rgba(26, 26, 26, 0.7);
 }
 
-.findLink {
+.right-panel .findLink {
   text-decoration: none;
-  color: #303030;
-  padding: 0 5px;
+  color: #3b82f6;
+  padding: 0 8px;
+  transition: color 0.2s ease;
 }
 
-.findLink:hover {
-  color: #333;
+.right-panel .findLink:hover {
+  color: #1d4ed8;
   text-decoration: underline;
 }
 
-.divider {
-  color: #ccc;
+.right-panel .divider {
+  color: rgba(26, 26, 26, 0.3);
+  margin: 0 8px;
+}
+
+/* 왼쪽 패널은 기존 스타일 유지 */
+.left-panel .findAccount {
+  margin-top: 24px;
+  text-align: center;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.left-panel .findLink {
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 0 8px;
+  transition: color 0.2s ease;
+}
+
+.left-panel .findLink:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+.left-panel .divider {
+  color: rgba(255, 255, 255, 0.3);
+  margin: 0 8px;
+}
+
+/* Background */
+.background {
+  background: none !important;
+  background-image: none !important;
+}
+
+.background::before {
+  display: none !important;
+}
+
+/* Responsive design */
+@media (max-width: 1200px) {
+  .left-panel, .right-panel {
+    padding: 60px 48px;
+  }
+  
+  .brand-title {
+    font-size: clamp(36px, 10vw, 80px);
+  }
+}
+
+@media (max-width: 900px) {
+  .login-container {
+    flex-direction: column;
+  }
+  
+  .right-panel {
+    border-left: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  .left-panel, .right-panel {
+    padding: 40px 32px;
+  }
+  
+  .brand-title {
+    font-size: clamp(32px, 12vw, 60px);
+    margin-bottom: 24px;
+  }
+  
+  .brand-subtitle {
+    font-size: 20px;
+    margin-bottom: 16px;
+  }
+  
+  .brand-description {
+    font-size: 16px;
+    margin-bottom: 32px;
+  }
+  
+  .login-title {
+    font-size: 28px;
+    margin-bottom: 32px;
+  }
+}
+
+@media (max-width: 600px) {
+  .left-panel, .right-panel {
+    padding: 32px 20px;
+  }
+  
+  .inputBox input {
+    padding: 14px 16px;
+  }
+  
+  .buttons button,
+  .buttons a {
+    height: 52px;
+    font-size: 15px;
+  }
 }

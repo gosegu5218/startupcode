@@ -36,8 +36,8 @@ body{font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", 
 .nav-actions{display:flex;align-items:center;gap:12px}
 .site-header .top-links a{color:var(--accent);text-decoration:none}
 
-/* LOGIN/LOGOUT 버튼 */
-.auth-btn {
+/* Logout 버튼 */
+.logout-btn {
   color: var(--accent);
   text-decoration: none;
   padding: 8px 16px;
@@ -50,7 +50,7 @@ body{font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", 
   transition: all 0.2s ease;
 }
 
-.auth-btn:hover {
+.logout-btn:hover {
   border-color: rgba(255,255,255,0.6);
   background: rgba(255,255,255,0.05);
 }

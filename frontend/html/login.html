@@ -9,42 +9,89 @@
             crossorigin="anonymous"
         />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.7.6/lottie.min.js"></script>
-        <title>로그인</title>
+        <title>AOOTD - 로그인</title>
     </head>
-    <body>
-        <section class="wrap">
-            <h1 class="title">로그인</h1>
-            <article>
-                <div class="inputBox">
-                    <label for="id">이메일</label>
-                    <input
-                        type="text"
-                        name="id"
-                        id="id"
-                        placeholder="이메일을 입력하세요"
-                    />
-                    <div id="lottie-animation" class="lottie"></div>
+    <body class="login-page">
+        <!-- Main Content -->
+        <main class="login-container">
+            <!-- Left Panel - Branding -->
+            <section class="left-panel">
+                <div class="brand-content">
+                    <h1 class="brand-title">
+                        AOOTD<span class="logo-dot"></span>
+                    </h1>
+                    <p class="brand-subtitle">
+                        나만의 액세서리 스타일을 발견하는 공간
+                    </p>
+                    <p class="brand-description">
+                        패션 애호가들이 모여 액세서리 코디를 공유하고, 
+                        트렌드를 나누며 스타일 감각을 키워나갑니다.
+                    </p>
+                    <div class="features-list">
+                        <div class="feature-item">
+                            <div class="feature-icon">✓</div>
+                            <span>일상 액세서리 코디 공유</span>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">✓</div>
+                            <span>트렌드 액세서리 발견</span>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">✓</div>
+                            <span>스타일 피드백 시스템</span>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">✓</div>
+                            <span>액세서리 브랜드 정보</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="inputBox">
-                    <label for="pw">비밀번호</label>
-                    <input
-                        type="password"
-                        name="pw"
-                        id="pw"
-                        placeholder="비밀번호를 입력하세요"
-                    />
-                    <p class="helperText"></p>
+            </section>
+
+            <!-- Right Panel - Login Form -->
+            <section class="right-panel">
+                <div class="login-form-container">
+                    <h2 class="login-title">로그인</h2>
+                    <form class="login-form">
+                        <div class="inputBox">
+                            <label for="id">이메일</label>
+                            <input
+                                type="email"
+                                name="id"
+                                id="id"
+                                placeholder="이메일을 입력하세요"
+                                required
+                                autocomplete="email"
+                            />
+                            <div id="lottie-animation" class="lottie"></div>
+                            <p class="helperText" id="emailHelperText"></p>
+                        </div>
+                        <div class="inputBox">
+                            <label for="pw">비밀번호</label>
+                            <input
+                                type="password"
+                                name="pw"
+                                id="pw"
+                                placeholder="비밀번호를 입력하세요"
+                                required
+                                autocomplete="current-password"
+                            />
+                            <p class="helperText" id="passwordHelperText"></p>
+                        </div>
+                        <div class="buttons">
+                            <button type="button" id="login">로그인</button>
+                            <a href="signup.html" role="button">회원가입</a>
+                        </div>
+                        <div class="findAccount">
+                            <a href="./findId.html" class="findLink" target="_self">아이디 찾기</a>
+                            <span class="divider">|</span>
+                            <a href="./modifyPassword.html" class="findLink" target="_self">비밀번호 찾기</a>
+                        </div>
+                    </form>
                 </div>
-                <div class="buttons">
-                    <button id="login">로그인</button>
-                    <a href="signup.html">회원가입</a>
-                </div>
-                <div class="findAccount">
-                    <a href="/html/findId.html" class="findLink">아이디 찾기</a> 
-                    <span class="divider"></span>
-                </div>
-            </article>
-        </section>
+            </section>
+        </main>
+
         <div class="background"></div>
     </body>
     <script src="../js/login.js" type="module"></script>

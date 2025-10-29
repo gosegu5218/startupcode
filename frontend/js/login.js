@@ -16,34 +16,48 @@ const loginData = {
 };
 
 const updateHelperText = (helperTextElement, message = '') => {
-    helperTextElement.textContent = message;
+    if (helperTextElement) {
+        helperTextElement.textContent = message;
+    }
+};
+
+const updateEmailHelperText = (message = '') => {
+    const emailHelperElement = document.querySelector('#emailHelperText');
+    updateHelperText(emailHelperElement, message);
+};
+
+const updatePasswordHelperText = (message = '') => {
+    const passwordHelperElement = document.querySelector('#passwordHelperText');
+    updateHelperText(passwordHelperElement, message);
 };
 
 const loginClick = async () => {
     const { id: email, password } = loginData;
-    const helperTextElement = document.querySelector('.helperText');
+
+    // 에러 메시지 초기화
+    updateEmailHelperText('');
+    updatePasswordHelperText('');
+
+    // 이메일 입력 확인
+    if (!email || email.trim() === '') {
+        updateEmailHelperText('*아이디를 입력해주세요.');
+        return;
+    }
 
     const response = await userLogin(email, password);
 
     console.log('status:', response.status);
 
     if (!response.ok) {
-        updateHelperText(
-            helperTextElement,
-            '*입력하신 계정 정보가 정확하지 않습니다.',
-        );
+        updatePasswordHelperText('*입력하신 계정 정보가 정확하지 않습니다.');
         return;
     }
 
     const result = await response.json();
     if (response.status !== HTTP_OK) {
-        updateHelperText(
-            helperTextElement,
-            '*입력하신 계정 정보가 정확하지 않습니다.',
-        );
+        updatePasswordHelperText('*입력하신 계정 정보가 정확하지 않습니다.');
         return;
     }
-    updateHelperText(helperTextElement);
 
     setCookie('session', result.data.sessionId, 14);
     setCookie('userId', result.data.userId, 14);
@@ -54,14 +68,21 @@ const loginClick = async () => {
 const observeSignupData = () => {
     const { id: email, password } = loginData;
     const button = document.querySelector('#login');
-    const helperTextElement = document.querySelector('.helperText');
 
     const isValidEmail = validEmail(email);
-    updateHelperText(
-        helperTextElement,
+    
+    // 이메일 유효성 검사 메시지는 이메일 필드에 표시
+    updateEmailHelperText(
         isValidEmail || !email
             ? ''
-            : '*올바른 이메일 주소 형식을 입력해주세요. (예: example@example.com)',
+            : '*올바른 이메일 주소 형식을 입력해주세요. (예: example@example.com)'
+    );
+
+    // 비밀번호 길이 검사 메시지는 비밀번호 필드에 표시
+    updatePasswordHelperText(
+        password && password.length < MAX_PASSWORD_LENGTH && password.length > 0
+            ? '*비밀번호는 8자 이상이어야 합니다.'
+            : ''
     );
 
     button.disabled = !(
@@ -70,16 +91,43 @@ const observeSignupData = () => {
         password &&
         password.length >= MAX_PASSWORD_LENGTH
     );
-    button.style.backgroundColor = button.disabled ? '#ACA0EB' : '#7F6AEE';
+    
+    // 버튼 색상은 새로운 스타일에 맞게 조정
+    if (button.disabled) {
+        button.style.background = '#000000';
+        button.style.color = '#ffffff';
+        button.style.border = '1px solid #000000';
+        button.style.cursor = 'not-allowed';
+    } else {
+        button.style.background = '#000000';
+        button.style.color = '#ffffff';
+        button.style.border = '1px solid #000000';
+        button.style.cursor = 'pointer';
+    }
 };
 
 const eventSet = () => {
-    document.getElementById('login').addEventListener('click', loginClick);
+    // 로그인 버튼 클릭 이벤트
+    document.getElementById('login').addEventListener('click', (event) => {
+        event.preventDefault();
+        loginClick();
+    });
 
-    document.addEventListener('keypress', event => {
-        if (event.key === 'Enter') {
-            loginClick();
-        }
+    // 폼 제출 이벤트 방지 - 로그인 버튼에서만
+    document.querySelector('.login-form').addEventListener('submit', (event) => {
+        event.preventDefault();
+        loginClick();
+    });
+
+    // 엔터키 이벤트 - 입력 필드에서만 동작
+    ['id', 'pw'].forEach(field => {
+        const inputElement = document.getElementById(field);
+        inputElement.addEventListener('keypress', event => {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                loginClick();
+            }
+        });
     });
 
     ['id', 'pw'].forEach(field => {
@@ -130,8 +178,18 @@ const lottieAnimation = type => {
 
 const init = async () => {
     observeSignupData();
-    prependChild(document.body, Header('커뮤니티', 0));
+    // 헤더 제거 - 대신 대표 아이콘 사용
+    // prependChild(document.body, Header('커뮤니티', 0));
     eventSet();
+    
+    // 로그인 버튼 스타일 강제 설정
+    const loginButton = document.querySelector('#login');
+    if (loginButton) {
+        loginButton.style.color = '#000000';
+        loginButton.style.border = '1px solid #000000';
+        loginButton.style.fontWeight = '600';
+    }
+    
     localStorage.clear();
     document.cookie = '';
 };
